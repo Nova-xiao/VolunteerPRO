@@ -16,3 +16,4 @@ miniprogram_npm
 package-lock.json
 yarn.lock
 package.json
+package.config.json
