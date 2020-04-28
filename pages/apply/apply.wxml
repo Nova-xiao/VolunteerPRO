@@ -51,14 +51,16 @@
       <view class="weui-cells__title">预计参与人数</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <view class="weui-input">{{peoplenumber}}</view>
+          <view class="weui-input">{{need_number}}</view>
         </view>
       </view>
     </view>
   <button bindtap="Modify">返回修改</button>
-  <button bindtap="sub2tass">确认无误，提交</button>
+  <button bindtap="sub2database">确认无误，提交</button>
 </view>
 <view wx:else class="weui-msg">
-  <view class="weui-msg__text-area">提交完成</view>
-  <view class="weui-msg__text-area">提交id为：{{contentId}}</view>
+  <view class="weui-msg__text-area">提交完成 </view>
+  <view class="weui-msg__text-area">活动id为：</view>
+  <view class="weui-msg__text-area">{{contentId}}</view>
+  <view class="weui-msg__link" bindtap="copyid" >点击复制活动id</view>
 </view>
