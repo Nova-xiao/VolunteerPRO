@@ -1,3 +1,6 @@
+wx.cloud.init()
+const db = wx.cloud.database()
+
 //app.js
 App({
   globalData: {
