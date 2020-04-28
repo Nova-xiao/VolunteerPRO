@@ -1,79 +1,74 @@
-// pages/work.js
+const util = require("../../utils/util.js")
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
+  //页面数据与全局数据同步
+  //更新时，先刷新全局数据，再根据全局数据刷新页面数据
   data: {
-    tags: [
-      "推荐",
-      "附近",
-      "医院",
-      "学校",
-      "养老院"
-    ],
-    left: 0,
+    contractNum: 0,
+    list: [],
+    reachBottom: false,
+    windowHeight: "",
+    windowWidth: "",
+    onShowGroup: "all"
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  // 导航条鼠标跟随
-  fnclick(ev) {
-    this.setData({
-      left: ev.target.offsetLeft
+  //渲染前获取视图层信息
+  onShow: function (e) {
+    wx.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          windowHeight: res.windowHeight,
+          windowWidth: res.windowWidth
+        })
+      }
     })
-
   },
 
-  onReady: function () {
-
+  toTop: function () {
+    this.setData({
+      scrollTop: 0,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  //onLoad函数
+  onLoad: function () {
+    this.setData({
+      reachBottom: false
+    })
+    //获取所有协议列表
+    util.getAll(this)
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  //对点击button的事件进行处理
+  clickbutton: function (e) {
+    console.log(e);
+    wx.navigateTo({
+      url: '/pages/display/display?id=' + e.currentTarget.id
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  //上拉加载刷新
+  pullDownRefresh: function () {
+    console.log("上拉刷新")
+    this.onLoad()
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+  //切换栏目（暂未实现）
+  clickmenu: function (e) {
+    console.log(e)
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-    
+  onShareAppMessage: function (res) {
+    if (res.from == 'button') {
+      console.log(res.target)
+      let contractId = res.target.dataset.contractId
+      let id = res.target.dataset.id
+      let list = this.data.list
+      return {
+        title: list[id].title,
+        path: '/pages/display/display?id=' + contractId
+      }
+    }
   }
-  
 })
+

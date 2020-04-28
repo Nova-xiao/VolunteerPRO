@@ -1,24 +1,36 @@
-<!--pages/work.wxml-->
-<!-- 搜素框的 -->
-<view class='page_row' bindtap="suo">
-    <view class="search">
-        <view class="df search_arr">
-            <icon class="searchcion" size='20' type='search' style="text-align:center; vertical-align:middel;"></icon>
-            <input class="" disabled placeholder="请输入关键字" value="{{searchValue}}" />
-        </view>
+<scroll-view scroll-x="true" class="menubar">
+  <!--上方菜单栏-->
+  <view class="menu">
+
+    <text class="{{onShowGroup=='all'?'active':''}}" id="all" bindtap="clickmenu">全部</text>
+
+  </view>
+</scroll-view>
+<!--内容-->
+<scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
+
+  <view wx:for="{{list}}" wx:key="index">
+    <view class="navbutton" catchtap="clickbutton" id="{{item.contract_id}}">
+        
+        <!--文字部分-->
+        <!--标题文字-->
+        <text class='titleText'>
+          {{item.title}}
+        </text>
+
+      <!--分享按钮-->
+      <view class='digest'>
+        {{item.content}}
+      </view>
+      
+      <view class='mat'></view>
+
+      <button class='sharebutton' open-type='share' data-imUrl="{{item.article.thumb_url}}" data-contractId="{{item.contract_id}}" 
+      data-id="{{index}}" catchtap='sharebutton'>
+        <image class='share' src='share2.png'></image>
+      </button>
+
     </view>
-    <view class='sousuo'>搜索</view>
-</view>
-<!-- 横向滑动块 -->
-<view class="header">
-    <scroll-view class="scroll-view_H" scroll-x="{{true}}">
-        <view class="cont">
-            <view class="list">
-                <view class="green" wx:for="{{tags}}" wx:key="work" bindtap='fnclick'>
-                    {{item}}
-                </view>
-            </view>
-            <view class="cur" style='left:{{left}}px'></view>
-        </view>
-    </scroll-view>
-</view>
+
+  </view>
+</scroll-view>
