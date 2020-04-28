@@ -1,4 +1,4 @@
-const taas = require("taas");
+//const taas = require("taas");
 
 //index.js
 //获取应用实例
