@@ -58,7 +58,6 @@ Page({
     console.log(e)
   },
 
-  //分享按钮
   onShareAppMessage: function (res) {
     if (res.from == 'button') {
       console.log(res.target)

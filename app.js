@@ -1,6 +1,3 @@
-const util = require("./utils/util.js")
-wx.cloud.init()
-const db = wx.cloud.database()
 //app.js
 App({
   globalData: {

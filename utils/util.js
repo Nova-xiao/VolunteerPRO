@@ -1,7 +1,3 @@
-wx.cloud.init()
-const db = wx.cloud.database()
-const app = getApp()
-
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1

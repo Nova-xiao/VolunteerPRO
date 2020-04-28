@@ -1,4 +1,4 @@
-// pages/display/display.js
+
 Page({
 
   /**

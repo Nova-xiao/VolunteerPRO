@@ -1,6 +1,6 @@
+//const taas = require("taas");
+
 //index.js
-const taas = require("miniprogram-taas-sdk");
-const util = require("../../utils/util.js");
 //获取应用实例
 const app = getApp()
 
@@ -9,15 +9,16 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    openid: ''
   },
   //事件处理函数
   bindViewTap: function() {
-    console.log(this.data.userInfo)
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
   },
   onLoad: function () {
-    console.log(taas.version)
-    
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -48,6 +49,17 @@ Page({
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        console.log('[云函数] [login] user openid: ', res.result.openid)
+        app.globalData.openid = res.result.openid
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+      }
+    })
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
@@ -63,7 +75,7 @@ Page({
     })
     
   },
-
+  
   clickBtn1: function (e) {
     wx.navigateTo({
       url: '/pages/apply/apply'
