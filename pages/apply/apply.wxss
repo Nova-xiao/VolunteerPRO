@@ -1,1 +1,5 @@
 /* pages/apply/apply.wxss */
+.page-section{
+  margin-bottom: 20rpx;
+}
+

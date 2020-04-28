@@ -1,15 +1,14 @@
 {
-  "name": "miniprogram",
+  "name": "getOpenId",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "miniprogram-taas-sdk": "file:taasSDK"
+    "wx-server-sdk": "latest"
   }
 }

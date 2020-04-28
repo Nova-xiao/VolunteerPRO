@@ -8,7 +8,8 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    openid: ''
   },
   //事件处理函数
   bindViewTap: function() {
@@ -17,8 +18,6 @@ Page({
     })
   },
   onLoad: function () {
-    console.log(taas.version)
-    
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -49,12 +48,23 @@ Page({
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        console.log('[云函数] [login] user openid: ', res.result.openid)
+        app.globalData.openid = res.result.openid
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+      }
+    })
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
   },
-
+  
   clickBtn1: function (e) {
     wx.navigateTo({
       url: '/pages/apply/apply'

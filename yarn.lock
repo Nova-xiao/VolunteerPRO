@@ -13,8 +13,13 @@ jsbn@^1.1.0:
     sm-crypto "^0.1.0"
 
 sm-crypto@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/sm-crypto/-/sm-crypto-0.1.1.tgz#ffad5416ef3622c40b3b881e4576595f8a8d42d6"
-  integrity sha512-ZEGmiezOroDlLr6qUoB9ZCmA5jZRmsjuea+NtIJrSx47EnufVsqX6DEa+XRFFacRUZFSiW2CMMJe9bAvdp3R/A==
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/sm-crypto/-/sm-crypto-0.1.0.tgz#21f7be7be21c68832b4d837cc439c6214065da90"
+  integrity sha512-VYtTlgErrkqLWpzRrrhG1uOQh9QcydD8kUnS7quu0DlI219qa9eO8vQW2yBMK3cF/CkWsvOlcmIJfXZ2IB3Wdg==
   dependencies:
     jsbn "^1.1.0"
+
+"taas@file:../../taas":
+  version "1.0.0"
+  dependencies:
+    sm-crypto "^0.1.0"
