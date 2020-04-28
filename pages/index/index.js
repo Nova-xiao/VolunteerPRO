@@ -1,4 +1,4 @@
-const taas = require("miniprogram-taas-sdk");
+const taas = require("taas");
 //index.js
 //获取应用实例
 const app = getApp()

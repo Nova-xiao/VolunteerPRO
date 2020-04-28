@@ -1,7 +1,4 @@
-const sdk = require("miniprogram-taas-sdk");
-
-
-
+const sdk = require("taas");
 
 
 function sayHello() {

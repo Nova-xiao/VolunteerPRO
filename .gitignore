@@ -13,7 +13,7 @@ $RECYCLE.BIN/
 # Node.js
 node_modules/
 
-taasSDK
+
 miniprogram_npm/taas/miniprogram_npm/sm-crypto/index.js.map
 miniprogram_npm/taas/index.js
 miniprogram_npm/taas/index.js
@@ -21,3 +21,8 @@ miniprogram_npm/taas/index.js.map
 miniprogram_npm/taas/miniprogram_npm/jsbn/index.js.map
 miniprogram_npm/taas/miniprogram_npm/sm-crypto/index.js.map
 package-lock.json
+
+taasSDK
+miniprogram_npm
+package.json
+yarn.lock
