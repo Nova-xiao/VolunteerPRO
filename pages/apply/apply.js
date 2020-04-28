@@ -1,6 +1,8 @@
 // pages/apply/apply.js
-
+const util = require('../../utils/taas_api.js')
 const app = getApp()
+
+const taas = require("miniprogram-taas-sdk");
 
 Page({
 
@@ -20,6 +22,14 @@ Page({
    */
   onLoad: function (options) {
     // 需检查是否授权有 openid，如无需获取
+    
+    console.log(taas.getServerAddr());
+    console.log(taas.storeEvidence("1", undefined, {
+      privateKey:"82a09e0ae57d75faee3e940e0506c90fece35883124806c2247803fcd550d151",
+      publicKey:"0454e60b7aaad4eb600fd517c6d1fd2af9be3b57c34294d084bd2a45bfc00debe42ae0a5e9450081241e399ca5cab63491323ca625b04c73a9421c43093d7a8ac8",
+      credential:"54f2ee6c01842b5e443022c5ae56beca4bab1892"
+    },(err, data) => {}));
+
     if (!app.globalData.openid) {
       console.log("no login")
       wx.showModal({
