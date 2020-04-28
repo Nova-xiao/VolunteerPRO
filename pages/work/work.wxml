@@ -14,7 +14,7 @@
     <scroll-view class="scroll-view_H" scroll-x="{{true}}">
         <view class="cont">
             <view class="list">
-                <view class="green" wx:for="{{tags}}" wx:key="{{work}}" bindtap='fnclick'>
+                <view class="green" wx:for="{{tags}}" wx:key="work" bindtap='fnclick'>
                     {{item}}
                 </view>
             </view>

@@ -1,22 +1,15 @@
 {
   "name": "miniprogram",
   "version": "1.0.0",
-  "description": "软工实验班实习项目",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nova-xiao/VolunteerPRO.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Nova-xiao/VolunteerPRO/issues"
-  },
-  "homepage": "https://github.com/Nova-xiao/VolunteerPRO#readme",
   "dependencies": {
-    "miniprogram-taas-sdk": "../../MiniProgram"
+    "taas": "file:../../taas"
   }
 }
