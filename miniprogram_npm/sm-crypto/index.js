@@ -1,18 +1,18 @@
 module.exports = (function() {
 var __MODS__ = {};
-var __DEFINE__ = function(modId, func, req) { var m = { exports: {} }; __MODS__[modId] = { status: 0, func: func, req: req, m: m }; };
-var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = { exports: {} }; __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); if(typeof m.exports === "object") { __MODS__[modId].m.exports.__proto__ = m.exports.__proto__; Object.keys(m.exports).forEach(function(k) { __MODS__[modId].m.exports[k] = m.exports[k]; var desp = Object.getOwnPropertyDescriptor(m.exports, k); if(desp && desp.configurable) Object.defineProperty(m.exports, k, { set: function(val) { __MODS__[modId].m.exports[k] = val; }, get: function() { return __MODS__[modId].m.exports[k]; } }); }); if(m.exports.__esModule) Object.defineProperty(__MODS__[modId].m.exports, "__esModule", { value: true }); } else { __MODS__[modId].m.exports = m.exports; } } return __MODS__[modId].m.exports; };
+var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexports: {} }; __MODS__[modId] = { status: 0, func: func, req: req, m: m }; };
+var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1586268653623, function(require, module, exports) {
+__DEFINE__(1588074682934, function(require, module, exports) {
 module.exports = {
     sm2: require('./src/sm2/index'),
     sm3: require('./src/sm3/index'),
     sm4: require('./src/sm4/index'),
 };
 
-}, function(modId) {var map = {"./src/sm2/index":1586268653624,"./src/sm3/index":1586268653630,"./src/sm4/index":1586268653631}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653624, function(require, module, exports) {
+}, function(modId) {var map = {"./src/sm2/index":1588074682935,"./src/sm3/index":1588074682941,"./src/sm4/index":1588074682942}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1588074682935, function(require, module, exports) {
 const { BigInteger } = require('jsbn');
 const { encodeDer, decodeDer } = require('./asn1');
 const SM3Digest = require('./sm3');
@@ -222,8 +222,8 @@ module.exports = {
     getPoint,
 };
 
-}, function(modId) { var map = {"./asn1":1586268653625,"./sm3":1586268653626,"./sm2":1586268653629,"./utils":1586268653627}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653625, function(require, module, exports) {
+}, function(modId) { var map = {"./asn1":1588074682936,"./sm3":1588074682937,"./sm2":1588074682940,"./utils":1588074682938}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1588074682936, function(require, module, exports) {
 const { BigInteger } = require('jsbn');
 
 function bigIntToMinTwosComplementsHex(bigIntegerValue) {
@@ -469,7 +469,7 @@ module.exports = {
 };
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653626, function(require, module, exports) {
+__DEFINE__(1588074682937, function(require, module, exports) {
 const { BigInteger } = require('jsbn');
 const _ = require('./utils');
 
@@ -583,8 +583,7 @@ class SM3Digest {
         let ww = this.X;
         let ww_ = new Array(64);
         for (i = 16; i < 68; i++) {
-            ww[i] = this.p1(ww[i - 16] ^ ww[i - 9] ^ (this.rotate(ww[i - 3], 15))) ^ (this.rotate(ww[i - 13], 7)) ^ ww[
-                i - 6];
+            ww[i] = this.p1(ww[i - 16] ^ ww[i - 9] ^ (this.rotate(ww[i - 3], 15))) ^ (this.rotate(ww[i - 13], 7)) ^ ww[i - 6];
         }
         for (i = 0; i < 64; i++) {
             ww_[i] = ww[i] ^ ww[i + 4];
@@ -799,8 +798,8 @@ class SM3Digest {
 
 module.exports = SM3Digest;
 
-}, function(modId) { var map = {"./utils":1586268653627}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653627, function(require, module, exports) {
+}, function(modId) { var map = {"./utils":1588074682938}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1588074682938, function(require, module, exports) {
 const { BigInteger, SecureRandom } = require('jsbn');
 const { ECCurveFp } = require ('./ec');
 
@@ -968,8 +967,8 @@ module.exports = {
     hexToArray,
 };
 
-}, function(modId) { var map = {"./ec":1586268653628}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653628, function(require, module, exports) {
+}, function(modId) { var map = {"./ec":1588074682939}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1588074682939, function(require, module, exports) {
 const { BigInteger } = require('jsbn');
 
 /**
@@ -1289,7 +1288,7 @@ module.exports = {
 };
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653629, function(require, module, exports) {
+__DEFINE__(1588074682940, function(require, module, exports) {
 const { BigInteger } = require('jsbn');
 const SM3Digest = require('./sm3');
 const _ = require('./utils');
@@ -1383,8 +1382,8 @@ class SM2Cipher {
 
 module.exports = SM2Cipher;
 
-}, function(modId) { var map = {"./sm3":1586268653626,"./utils":1586268653627}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653630, function(require, module, exports) {
+}, function(modId) { var map = {"./sm3":1588074682937,"./utils":1588074682938}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1588074682941, function(require, module, exports) {
 /**
  * 左补0到指定长度
  */
@@ -1621,7 +1620,7 @@ module.exports = function(str) {
 };
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1586268653631, function(require, module, exports) {
+__DEFINE__(1588074682942, function(require, module, exports) {
 const DECRYPT = 0;
 const ROUND = 32;
 const BLOCK = 16;
@@ -1794,6 +1793,6 @@ module.exports = {
 };
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1586268653623);
+return __REQUIRE__(1588074682934);
 })()
 //# sourceMappingURL=index.js.map
