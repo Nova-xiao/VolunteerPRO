@@ -17,15 +17,16 @@
 }
 
 .workblock{
-  display: block;
-  flex: 0 0 0rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .workbtn1{
   background-color: lightcyan;
   border-radius: 20rpx;
   border: 0rpx;
-  flex: 0 0 250rpx;
+  flex: 0 0 150rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +36,7 @@
   background-color: lightgoldenrodyellow;
   border-radius: 20rpx;
   border: 0rpx;
-  flex: 0 0 250rpx;
+  flex: 0 0 150rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +46,7 @@
   background-color: lightpink;
   border-radius: 20rpx;
   border: 0rpx;
-  flex: 0 0 250rpx;
+  flex: 0 0 150rpx;
   display: flex;
   align-items: center;
   justify-content: center;
