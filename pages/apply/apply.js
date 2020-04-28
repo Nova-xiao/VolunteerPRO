@@ -26,10 +26,10 @@ Page({
         title: '提示',
         content: '请登录后进行申请',
         showCancel: false,
-        success (res) {
+        success(res) {
           if (res.confirm) {
             wx.navigateBack({
-              complete: (res) => {},
+              complete: (res) => { },
             })
           }
         }
@@ -58,7 +58,7 @@ Page({
       title: this.data.title,
       content: this.data.content,
       people_number: this.data.peoplenumber,
-      now_signal_number: 0  
+      now_signal_number: 0
     }
     console.log(json)
     // 上传至数据库
@@ -86,5 +86,5 @@ Page({
         console.error('[数据库] [新增记录] 失败：', err)
       }
     })
-   },
+  },
 })
