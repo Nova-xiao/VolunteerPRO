@@ -1,6 +1,6 @@
-const taas = require("taas");
-
 //index.js
+const taas = require("miniprogram-taas-sdk");
+const util = require("../../utils/util.js");
 //获取应用实例
 const app = getApp()
 
@@ -13,11 +13,11 @@ Page({
   },
   //事件处理函数
   bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    console.log(this.data.userInfo)
   },
   onLoad: function () {
+    console.log(taas.version)
+    
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -52,6 +52,16 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+    // 获取openId  
+    wx.cloud.callFunction({
+      name: "getOpenId",
+      complete: res => {
+        console.log(res)
+        this.globalData.openId = res.result.openid
+       
+      }
+    })
+    
   },
 
   clickBtn1: function (e) {
