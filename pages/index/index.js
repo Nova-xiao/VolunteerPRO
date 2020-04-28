@@ -57,7 +57,7 @@ Page({
       name: "getOpenId",
       complete: res => {
         console.log(res)
-        this.globalData.openId = res.result.openid
+        this.globalData.openid = res.result.openid
        
       }
     })

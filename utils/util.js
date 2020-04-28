@@ -70,7 +70,24 @@ function getAccountInfo (openid, that) {
   return data
 }
 
+function getAll(that){
+  
+  var contractDb = db.collection("Contracts")
+  contractDb.count().then(res => {
+      that.setData({
+        contractNum: res.total
+      })
+      contractDb.get().then(res =>{
+        that.setData({
+          list: res.data
+        })
+      })
+    }
+  )
+}
+
 module.exports = {
   formatTime: formatTime,
-  getAccountInfo: getAccountInfo
+  getAccountInfo: getAccountInfo,
+  getAll: getAll
 }

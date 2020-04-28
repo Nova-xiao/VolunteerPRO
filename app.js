@@ -5,7 +5,7 @@ const db = wx.cloud.database()
 App({
   globalData: {
     userInfo: null,
-    openId: null,
+    openid: null,
     accountInfo: null
   },
 
@@ -36,7 +36,7 @@ App({
                 name: "getOpenId",
                 complete: res => {
                   console.log(res)
-                  this.globalData.openId = res.result.openid
+                  this.globalData.openid = res.result.openid
                   let openid = res.result.openid
                   //同步Account信息
                   if (openid === null) {
