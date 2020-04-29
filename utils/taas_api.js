@@ -7,14 +7,37 @@ const kp = {
   credential: '54f2ee6c01842b5e443022c5ae56beca4bab1892'
 }
 
-function store(data) {
-  taas.storeEvidence(data, undefined, kp, (err, data) => {
+function store(content) {
+  console.log("store!!!", content)
+  content = {
+    text: content
+  }
+  taas.storeEvidence(content, undefined, kp, (err, obj) => {
+    console.log("callbaeck")
     if (err) return;
-    const hashId = data.hash;
+    const hashId = obj.hash;
     // save in database
-    
+    const db = wx.cloud.database()
+    console.log("hash", hashId)
+    console.log("obj", obj)
+    console.log("content", content.text._id)
+
+    db.collection('Contracts').doc(content.text._id).update({
+      data:{
+        onChain: true
+      },
+      success: function(res) {
+        console.log("update")
+        console.log("res", res)
+      },
+      fail: function() {
+        console.log("failed")
+      }
+    })
   })
 }
+
+
 
 function query(hashId) {
   sdk.queryEvidence(hashId, undefined, kp, (err, data) => {
