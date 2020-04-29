@@ -66,7 +66,7 @@ Page({
     console.log(json)
     // 上传至数据库
     const db = wx.cloud.database()
-    db.collection('Contents').add({
+    db.collection('Contracts').add({
       data: json,
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id

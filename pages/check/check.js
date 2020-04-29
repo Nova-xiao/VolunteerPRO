@@ -36,13 +36,31 @@ Page({
         }
       })
     }
+    //检查options中是否有id，如果有则直接跳到查看
+    if(options.id){
+      this.setData({
+        step: 2,
+        contract_id: options.id
+      })
+      const db = wx.cloud.database()
+      db.collection('Contracts').where({
+        contract_id: this.data.contract_id
+      }).get().then(res => {
+        this.setData({
+          title: res.data[0]["title"],
+          content: res.data[0]["content"],
+          peoplenumber: res.data[0]["need_number"],
+          peopleset: res.data[0]["attenders"],
+          _id: res.data[0]["_id"]
+        })
+      })
+    }
   },
   formSubmit: function (e) {
     this.setData({
       step:2,
       contract_id: e.detail.value.contract_id,
-    }
-    )
+    })
     const db = wx.cloud.database()
     db.collection('Contracts').where({
       contract_id:this.data.contract_id

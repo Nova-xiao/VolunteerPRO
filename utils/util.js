@@ -85,8 +85,19 @@ function getAll(that){
   )
 }
 
+function getNum(that) {
+  var contractDb = db.collection("Contracts")
+  contractDb.count().then(res => {
+    that.setData({
+      contractNum: res.total
+    })
+  }
+  )
+}
+
 module.exports = {
   formatTime: formatTime,
   getAccountInfo: getAccountInfo,
-  getAll: getAll
+  getAll: getAll,
+  getNum: getNum
 }
