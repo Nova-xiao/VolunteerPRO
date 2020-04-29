@@ -1,18 +1,16 @@
 // pages/appeal/appeal.js
+const tool = require("../../utils/chain_access.js");
+
+
+
 Page({
+
 
   /**
    * 页面的初始数据
    */
   data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+    text: null
   },
 
   /**
