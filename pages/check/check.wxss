@@ -3,6 +3,6 @@
   margin-bottom: 20rpx;
 }
 
-.haveAttended{
+.cantAttend{
   background-color: lightgray
 }

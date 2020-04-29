@@ -3,6 +3,7 @@ const app = getApp()
 wx.cloud.init()
 const db = wx.cloud.database()
 const chainUtil = require("../../utils/chain_access.js")
+const util = require("../../utils/util.js")
 
 Page({
 
@@ -15,13 +16,13 @@ Page({
     _id:"",
     peopleset: [],
     onChain: false,
-    //本人是否参与
-    attended: false
+    hashId: "",
+    //本人是否能参与
+    canAttend: true,
+    //报名按钮文字
+    btnText: "点击报名"
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     // 需检查是否授权有 openid，如无需获取
     if (!app.globalData.openid) {
@@ -30,68 +31,24 @@ Page({
         title: '提示',
         content: '请登录后进行查看',
         showCancel: false,
-        success (res) {
+        success(res) {
           if (res.confirm) {
             wx.navigateBack({
-              complete: (res) => {},
+              complete: (res) => { },
             })
           }
         }
       })
     }
-    //检查options中是否有id，如果有则直接跳到查看
     if(options._id){
-      console.log(options._id)
-      this.setData({
-        step: 2,
-        _id: options._id
-      })
-      var that = this
-      db.collection('Contracts').doc(that.data._id)
-      .get().then(res => {
-        console.log(res)
-        that.setData({
-          title: res.data["title"],
-          content: res.data["content"],
-          peoplenumber: res.data["need_number"],
-          peopleset: res.data["attenders"],
-          _id: res.data["_id"],
-          onChain: res.data["onChain"]
-        })
-        //检查本人是否参加了
-        var attendIndex = that.data.peopleset.indexOf(app.globalData.openid)
-        console.log("attendIndex =  "+attendIndex)
-        console.log(attendIndex > -1)
-        that.setData({
-          attended: (attendIndex > -1)
-        })
-      })
+      //如果有_id，直接跳转到对应协议查看
+      util.getDataById(options._id, this)
     }
   },
+
+  //输入id显示协议内容
   formSubmit: function (e) {
-    this.setData({
-      step:2,
-      _id: e.detail.value._id,
-    })
-    var that = this
-    db.collection('Contracts').doc(that.data._id)
-    .get().then(res => {
-      that.setData({
-        title:res.data["title"],
-        content:res.data["content"],
-        peoplenumber:res.data["need_number"],
-        peopleset:res.data["attenders"],
-        _id:res.data["_id"],
-        onChain: res.data["onChain"]
-      })
-      //检查本人是否参加了
-      var attendIndex = that.data.peopleset.indexOf(app.globalData.openid)
-      console.log("attendIndex =  " + attendIndex)
-      that.setData({
-        attended: (attendIndex > -1)
-      })
-    })
-    //console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    util.getDataById(e.detail.value._id, this)
   },
 
   Close: function() {
@@ -202,5 +159,5 @@ Page({
     }
 */
     //this.onLoad();
-   },
+   }
 })

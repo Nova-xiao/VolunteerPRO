@@ -55,11 +55,19 @@
         </view>
       </view>
     </view>
-  <view wx:if="{{!attended}}">
+    <view class="page-section" wx:if="{{onChain}}">
+      <view class="weui-cells__title">链上HashId</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{hashId}}</view>
+        </view>
+      </view>
+    </view>
+  <view wx:if="{{canAttend}}">
     <button bindtap="sub2tass">点击报名</button>
   </view>
-  <view wx:else="{{!attended}}">
-    <button class="haveAttended">已报名</button>
+  <view wx:else>
+    <button class="cantAttend">{{btnText}}</button>
   </view>
     <button bindtap="Close">浏览完毕</button>
 </view>

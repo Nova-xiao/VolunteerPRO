@@ -1,5 +1,7 @@
 wx.cloud.init()
 const db = wx.cloud.database()
+const chainUtil = require("chain_access.js")
+const app = getApp()
 
 const formatTime = date => {
   const year = date.getFullYear()
@@ -69,6 +71,7 @@ function getAccountInfo (openid, that) {
   return data
 }
 
+//获取所有协议
 function getAll(that){
   var contractDb = db.collection("Contracts")
   contractDb.count().then(res => {
@@ -96,9 +99,64 @@ function getNum(that) {
   })
 }
 
+//通过id获取协议内容并更新页面
+function getDataById(id, that) {
+  that.setData({
+    step: 2,
+    _id: id
+  })
+  //分辨是否在链上
+  db.collection('Contracts').doc(that.data._id)
+    .get().then(async res => {
+      console.log(res)
+      that.setData({
+        title: res.data["title"],
+        content: res.data["content"],
+        peoplenumber: res.data["need_number"],
+        peopleset: res.data["attenders"],
+        _id: res.data["_id"],
+        onChain: res.data["onChain"],
+        hashId: res.data["HashId"]
+      })
+      //如果在链上，重新取
+      if (that.data.onChain) {
+        var json = await chainUtil.queryEvidence(that.data.hashId)
+        var chainData = JSON.parse(json)
+        that.setData({
+          title: chainData.title,
+          content: chainData.content,
+          peoplenumber: chainData.need_number,
+          peopleset: chainData.attenders,
+          _id: chainData._id
+        })
+        console.log("根据链上数据进行更新!")
+      }
+      //检查本人是否参加了
+      var attendIndex = that.data.peopleset.indexOf(app.globalData.openid)
+      console.log("attendIndex =  " + attendIndex)
+      if (attendIndex > -1) {
+        that.setData({
+          canAttend: false,
+          btnText: "已报名"
+        })
+      }
+      else {
+        //检查是否人已满
+        if (that.data.peoplenumber <= that.data.peopleset.length) {
+          that.setData({
+            canAttend: false,
+            btnText: "人已满"
+          })
+        }
+      }
+
+    })
+}
+
 module.exports = {
   formatTime: formatTime,
   getAccountInfo: getAccountInfo,
   getAll: getAll,
-  getNum: getNum
+  getNum: getNum,
+  getDataById: getDataById
 }
