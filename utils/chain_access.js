@@ -5,18 +5,13 @@ const keyp = {
   publicKey:"0454e60b7aaad4eb600fd517c6d1fd2af9be3b57c34294d084bd2a45bfc00debe42ae0a5e9450081241e399ca5cab63491323ca625b04c73a9421c43093d7a8ac8",
   credential:"54f2ee6c01842b5e443022c5ae56beca4bab1892"
 }
-const kp = {
-  privateKey: '82a09e0ae57d75faee3e940e0506c90fece35883124806c2247803fcd550d151',
-  publicKey: '0454e60b7aaad4eb600fd517c6d1fd2af9be3b57c34294d084bd2a45bfc00debe42ae0a5e9450081241e399ca5cab63491323ca625b04c73a9421c43093d7a8ac8',
-  credential: '54f2ee6c01842b5e443022c5ae56beca4bab1892'
-}
 
 function store(content) {
   console.log("store!!!", content)
   content = {
     text: content
   }
-  taas.storeEvidence(content, undefined, kp, (err, obj) => {
+  taas.storeEvidence(content, undefined, keyp, (err, obj) => {
     console.log("callbaeck")
     if (err) return;
     const hashId = obj.hash;
@@ -42,7 +37,7 @@ function store(content) {
 }
 
 function query(hashId) {
-  sdk.queryEvidence(hashId, undefined, kp, (err, data) => {
+  sdk.queryEvidence(hashId, undefined, keyp, (err, data) => {
     if (err) return;
     // Get the response
     const _message = data.data.text;
@@ -50,18 +45,37 @@ function query(hashId) {
     // console.log(_message); // Expect: test_message
   });
 }
+
+
+// Use these fucntions to get access to taas
+/*
+* To use this module, require("[relative path to this file]")
+* funtion storeEvidence(data) takes one argument:
+*   data: string
+* the function returns the hashid of the store query:
+*   hash: string
+*
+*
+* function queryEvidence(hash) takes one argument:
+*    hash: string
+# the function returns the saved data(string type) on the blockchain:
+*    text: strings
+*/ 
 module.exports = {
-  mysave: async function (data){
-    var resp = await sdkp.storeEvidence(data, undefined, keyp);
+  storeEvidence: async function (data){
+    var content = {
+      text: data
+    }
+    var resp = await sdkp.storeEvidence(content, undefined, keyp);
     var hash = resp.hash;
     console.log(hash);
     return hash;
   },
 
-  mycheck: async function (hash){
+  queryEvidence: async function (hash){
     var data =  await sdkp.queryEvidence(hash, undefined, keyp);
     console.log(data);
-    return data;
+    return data.data.text;
   },
 
 
