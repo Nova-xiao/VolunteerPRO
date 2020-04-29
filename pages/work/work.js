@@ -43,13 +43,14 @@ Page({
   clickbutton: function (e) {
     console.log(e);
     wx.navigateTo({
-      url: '/pages/display/display?id=' + e.currentTarget.id
+      url: '/pages/check/check?id=' + e.currentTarget.id
     })
   },
 
-  //上拉加载刷新
-  pullDownRefresh: function () {
-    console.log("上拉刷新")
+  //下拉加载刷新
+  onPullDownRefresh: function () {
+    console.log("下拉刷新")
+    wx.stopPullDownRefresh()
     this.onLoad()
   },
 
@@ -66,7 +67,7 @@ Page({
       let list = this.data.list
       return {
         title: list[id].title,
-        path: '/pages/display/display?id=' + contractId
+        path: '/pages/check/check?id=' + contractId
       }
     }
   }

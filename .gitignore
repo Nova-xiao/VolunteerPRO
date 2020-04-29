@@ -11,14 +11,9 @@ $RECYCLE.BIN/
 .Trashes
 
 # Node.js
-node_modules/
-miniprogram_npm/taas/miniprogram_npm/sm-crypto/index.js.map
-miniprogram_npm/taas/index.js
-miniprogram_npm/taas/index.js
-miniprogram_npm/taas/index.js.map
-miniprogram_npm/taas/miniprogram_npm/jsbn/index.js.map
-miniprogram_npm/taas/miniprogram_npm/sm-crypto/index.js.map
+node_modules
+miniprogram_npm
 package-lock.json
 yarn.lock
-miniprogram_npm
+package.json
 

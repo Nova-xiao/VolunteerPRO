@@ -1,66 +1,112 @@
 // pages/check/check.js
+const app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    step: 1,
+    title: "",
+    content: "",
+    peoplenumber: 0,
+    contentId: "",
+    contract_id: "",
+    _id:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 需检查是否授权有 openid，如无需获取
+    if (!app.globalData.openid) {
+      console.log("no login")
+      wx.showModal({
+        title: '提示',
+        content: '请登录后进行查看',
+        showCancel: false,
+        success (res) {
+          if (res.confirm) {
+            wx.navigateBack({
+              complete: (res) => {},
+            })
+          }
+        }
+      })
+    }
+    //检查options中是否有id，如果有则直接跳到查看
+    if(options.id){
+      this.setData({
+        step: 2,
+        contract_id: options.id
+      })
+      const db = wx.cloud.database()
+      db.collection('Contracts').where({
+        contract_id: this.data.contract_id
+      }).get().then(res => {
+        this.setData({
+          title: res.data[0]["title"],
+          content: res.data[0]["content"],
+          peoplenumber: res.data[0]["need_number"],
+          peopleset: res.data[0]["attenders"],
+          _id: res.data[0]["_id"]
+        })
+      })
+    }
+  },
+  formSubmit: function (e) {
+    this.setData({
+      step:2,
+      contract_id: e.detail.value.contract_id,
+    })
+    const db = wx.cloud.database()
+    db.collection('Contracts').where({
+      contract_id:this.data.contract_id
+    }).get().then(res => {
+      this.setData({
+        title:res.data[0]["title"],
+        content:res.data[0]["content"],
+        peoplenumber:res.data[0]["need_number"],
+        peopleset:res.data[0]["attenders"],
+        _id:res.data[0]["_id"]
+      })
+   // console.log(res.data[0]._id)
+    })
+    //console.log('form发生了submit事件，携带数据为：', e.detail.value)
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  Close: function() {
+    console.log("close"),
+    wx.navigateBack({
+      complete: (res) => {},
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+  sub2tass: function () {
+    // 构造json数组
+    console.log(this.data.peopleset)
+    console.log("openid: ", app.globalData.openid)
+    this.data.peopleset.push(app.globalData.openid)
+   
+    const db = wx.cloud.database()
+    db.collection('Contracts').doc(this.data._id).update({
+      data:{
+        attenders:this.data.peopleset,
+      },
+      success: res => {
+        wx.showToast({
+          title: '报名成功！',
+        })
+        console.log('报名成功!')
+      },
+      fail: err => {
+        wx.showToast({
+          title: '报名失败…',
+        })
+        console.log('报名失败：', err)
+      }
+    })
+   },
 })
