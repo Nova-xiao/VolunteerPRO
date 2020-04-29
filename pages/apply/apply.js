@@ -1,5 +1,5 @@
 // pages/apply/apply.js
-const blockchain = require('../../utils/taas_api.js')
+const blockchain = require('../../utils/chain_access.js')
 const app = getApp()
 
 const taas = require("miniprogram-taas-sdk");
