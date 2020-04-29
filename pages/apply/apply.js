@@ -2,8 +2,6 @@
 const blockchain = require('../../utils/chain_access.js')
 const app = getApp()
 
-const app = getApp()
-
 Page({
 
   /**
