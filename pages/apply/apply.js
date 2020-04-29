@@ -1,5 +1,5 @@
 // pages/apply/apply.js
-const util = require('../../utils/taas_api.js')
+const blockchain = require('../../utils/taas_api.js')
 const app = getApp()
 
 const taas = require("miniprogram-taas-sdk");
@@ -22,7 +22,6 @@ Page({
    */
   onLoad: function (options) {
     // 需检查是否授权有 openid，如无需获取
-
 
     if (!app.globalData.openid) {
       console.log("no login")
