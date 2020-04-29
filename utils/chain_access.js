@@ -23,7 +23,8 @@ function store(content) {
 
     db.collection('Contracts').doc(content.text._id).update({
       data:{
-        onChain: true
+        onChain: true,
+        hashId: obj.hashId
       },
       success: function(res) {
         console.log("update")

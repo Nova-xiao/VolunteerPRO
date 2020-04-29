@@ -39,8 +39,29 @@
         </view>
       </view>
     </view>
-  <button bindtap="sub2tass">点击报名</button>
-  <button bindtap="Close">浏览完毕</button>
+    <view class="page-section">
+      <view class="weui-cells__title">目前参与人数</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{peopleset.length}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">是否上链</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{(onChain)?("已上链"):("未上链")}}</view>
+        </view>
+      </view>
+    </view>
+  <view wx:if="{{!attended}}">
+    <button bindtap="sub2tass">点击报名</button>
+  </view>
+  <view wx:else="{{!attended}}">
+    <button class="haveAttended">已报名</button>
+  </view>
+    <button bindtap="Close">浏览完毕</button>
 </view>
 <view wx:else class="weui-msg">
   <view class="weui-msg__text-area">提交完成</view>

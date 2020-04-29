@@ -2,18 +2,21 @@
 const app = getApp()
 wx.cloud.init()
 const db = wx.cloud.database()
+const chainUtil = require("../../utils/chain_access.js")
 
 Page({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
+    //协议信息
     step: 1,
     title: "",
     content: "",
     peoplenumber: 0,
-    _id:""
+    _id:"",
+    peopleset: [],
+    onChain: false,
+    //本人是否参与
+    attended: false
   },
 
   /**
@@ -52,7 +55,15 @@ Page({
           content: res.data["content"],
           peoplenumber: res.data["need_number"],
           peopleset: res.data["attenders"],
-          _id: res.data["_id"]
+          _id: res.data["_id"],
+          onChain: res.data["onChain"]
+        })
+        //检查本人是否参加了
+        var attendIndex = that.data.peopleset.indexOf(app.globalData.openid)
+        console.log("attendIndex =  "+attendIndex)
+        console.log(attendIndex > -1)
+        that.setData({
+          attended: (attendIndex > -1)
         })
       })
     }
@@ -70,7 +81,14 @@ Page({
         content:res.data["content"],
         peoplenumber:res.data["need_number"],
         peopleset:res.data["attenders"],
-        _id:res.data["_id"]
+        _id:res.data["_id"],
+        onChain: res.data["onChain"]
+      })
+      //检查本人是否参加了
+      var attendIndex = that.data.peopleset.indexOf(app.globalData.openid)
+      console.log("attendIndex =  " + attendIndex)
+      that.setData({
+        attended: (attendIndex > -1)
       })
     })
     //console.log('form发生了submit事件，携带数据为：', e.detail.value)
@@ -89,22 +107,39 @@ Page({
     console.log("openid: ", app.globalData.openid)
     this.data.peopleset.push(app.globalData.openid)
    
-    db.collection('Contracts').doc(this.data._id).update({
-      data:{
-        attenders:this.data.peopleset,
-      },
-      success: res => {
-        wx.showToast({
-          title: '报名成功！',
-        })
-        console.log('报名成功!')
-      },
-      fail: err => {
-        wx.showToast({
-          title: '报名失败…',
-        })
-        console.log('报名失败：', err)
+    //根据人数判断是否需要上链
+    if(this.data.peopleset.length == this.data.need_number){
+      //需要
+      //调用sdk上链
+      var blockData = {
+        _id: this.data._id,
+        attenders: this.data.peopleset,
+        need_number: this.data.peoplenumber,
+        title: this.data.title,
+        content: this.data.content
       }
-    })
+      chainUtil.store(blockData)
+    }
+    else{
+      //不需要
+      db.collection('Contracts').doc(this.data._id).update({
+        data: {
+          attenders: this.data.peopleset
+        },
+        success: res => {
+          wx.showToast({
+            title: '报名成功！',
+          })
+          console.log('报名成功!')
+        },
+        fail: err => {
+          wx.showToast({
+            title: '报名失败…',
+          })
+          console.log('报名失败：', err)
+        }
+      })
+    }
+
    },
 })
