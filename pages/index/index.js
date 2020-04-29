@@ -65,15 +65,6 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-    // 获取openId  
-    wx.cloud.callFunction({
-      name: "getOpenId",
-      complete: res => {
-        console.log(res)
-        this.globalData.openid = res.result.openid
-       
-      }
-    })
     
   },
   

@@ -1,6 +1,7 @@
 // pages/apply/apply.js
 const blockchain = require('../../utils/chain_access.js')
 const app = getApp()
+const util = require("../../utils/util.js")
 
 Page({
 
@@ -12,7 +13,8 @@ Page({
     title: "",
     content: "",
     need_number: 0,
-    contentId: ""
+    contentId: "",
+    contractNum: 0
   },
 
   /**
@@ -35,6 +37,8 @@ Page({
         }
       })
     }
+    util.getNum(this)
+    console.log(this.data.contractNum)
   },
   formSubmit: function (e) {
     this.setData({
@@ -53,17 +57,19 @@ Page({
   },
 
   sub2database: function () {
+    //获得总合约数，为生成contract_id准备
+    util.getNum(this)
     // 构造json数组
     var json = {
       HashId: "",
       attenders: [],
       content: this.data.content,
-      contract_id: "",
+      contract_id: this.data.contractNum,
       contract_url: "",
       need_number: this.data.need_number,
       onChain: false,
       owner: app.globalData.openid,
-      title: this.data.title  
+      title: this.data.title,
     }
     console.log(json)
     // 上传至数据库

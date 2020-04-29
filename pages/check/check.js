@@ -1,5 +1,7 @@
 // pages/check/check.js
 const app = getApp()
+wx.cloud.init()
+const db = wx.cloud.database()
 
 Page({
 
@@ -11,8 +13,6 @@ Page({
     title: "",
     content: "",
     peoplenumber: 0,
-    contentId: "",
-    contract_id: "",
     _id:""
   },
 
@@ -37,21 +37,22 @@ Page({
       })
     }
     //检查options中是否有id，如果有则直接跳到查看
-    if(options.id){
+    if(options._id){
+      console.log(options._id)
       this.setData({
         step: 2,
-        contract_id: options.id
+        _id: options._id
       })
-      const db = wx.cloud.database()
-      db.collection('Contracts').where({
-        contract_id: this.data.contract_id
-      }).get().then(res => {
-        this.setData({
-          title: res.data[0]["title"],
-          content: res.data[0]["content"],
-          peoplenumber: res.data[0]["need_number"],
-          peopleset: res.data[0]["attenders"],
-          _id: res.data[0]["_id"]
+      var that = this
+      db.collection('Contracts').doc(that.data._id)
+      .get().then(res => {
+        console.log(res)
+        that.setData({
+          title: res.data["title"],
+          content: res.data["content"],
+          peoplenumber: res.data["need_number"],
+          peopleset: res.data["attenders"],
+          _id: res.data["_id"]
         })
       })
     }
@@ -59,20 +60,18 @@ Page({
   formSubmit: function (e) {
     this.setData({
       step:2,
-      contract_id: e.detail.value.contract_id,
+      _id: e.detail.value._id,
     })
-    const db = wx.cloud.database()
-    db.collection('Contracts').where({
-      contract_id:this.data.contract_id
-    }).get().then(res => {
-      this.setData({
-        title:res.data[0]["title"],
-        content:res.data[0]["content"],
-        peoplenumber:res.data[0]["need_number"],
-        peopleset:res.data[0]["attenders"],
-        _id:res.data[0]["_id"]
+    var that = this
+    db.collection('Contracts').doc(that.data._id)
+    .get().then(res => {
+      that.setData({
+        title:res.data["title"],
+        content:res.data["content"],
+        peoplenumber:res.data["need_number"],
+        peopleset:res.data["attenders"],
+        _id:res.data["_id"]
       })
-   // console.log(res.data[0]._id)
     })
     //console.log('form发生了submit事件，携带数据为：', e.detail.value)
   },
@@ -90,7 +89,6 @@ Page({
     console.log("openid: ", app.globalData.openid)
     this.data.peopleset.push(app.globalData.openid)
    
-    const db = wx.cloud.database()
     db.collection('Contracts').doc(this.data._id).update({
       data:{
         attenders:this.data.peopleset,

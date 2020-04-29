@@ -43,7 +43,7 @@ Page({
   clickbutton: function (e) {
     console.log(e);
     wx.navigateTo({
-      url: '/pages/check/check?id=' + e.currentTarget.id
+      url: '/pages/check/check?_id=' + e.currentTarget.id
     })
   },
 
@@ -51,6 +51,11 @@ Page({
   onPullDownRefresh: function () {
     console.log("下拉刷新")
     wx.stopPullDownRefresh()
+    this.onLoad()
+  },
+
+  onReachBottom: function () {
+    console.log("下拉刷新")
     this.onLoad()
   },
 
@@ -62,12 +67,12 @@ Page({
   onShareAppMessage: function (res) {
     if (res.from == 'button') {
       console.log(res.target)
-      let contractId = res.target.dataset.contractId
+      let _id = res.target.dataset._id
       let id = res.target.dataset.id
       let list = this.data.list
       return {
         title: list[id].title,
-        path: '/pages/check/check?id=' + contractId
+        path: '/pages/check/check?_id=' + _id
       }
     }
   }

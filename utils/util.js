@@ -70,13 +70,13 @@ function getAccountInfo (openid, that) {
 }
 
 function getAll(that){
-  
   var contractDb = db.collection("Contracts")
   contractDb.count().then(res => {
       that.setData({
         contractNum: res.total
       })
       contractDb.get().then(res =>{
+        console.log(res)
         that.setData({
           list: res.data
         })
@@ -85,14 +85,15 @@ function getAll(that){
   )
 }
 
+//获取协议总数
 function getNum(that) {
   var contractDb = db.collection("Contracts")
   contractDb.count().then(res => {
+    console.log(res.total)
     that.setData({
       contractNum: res.total
     })
-  }
-  )
+  })
 }
 
 module.exports = {

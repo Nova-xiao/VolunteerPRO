@@ -10,7 +10,7 @@
 <scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
 
   <view wx:for="{{list}}" wx:key="index">
-    <view class="navbutton" catchtap="clickbutton" id="{{item.contract_id}}">
+    <view class="navbutton" catchtap="clickbutton" id="{{item._id}}">
         
         <!--文字部分-->
         <!--标题文字-->
@@ -25,8 +25,7 @@
       
       <view class='mat'></view>
 
-      <button class='sharebutton' open-type='share' data-imUrl="{{item.article.thumb_url}}" data-contractId="{{item.contract_id}}" 
-      data-id="{{index}}" catchtap='sharebutton'>
+      <button style="width:39rpx;height:36rpx;position:absolute;right:29rpx;  bottom:39rpx;background-color: white;padding: 0rpx 0rpx;border-radius: 0;"    open-type='share' data-imUrl="{{item.article.thumb_url}}" data-_id=" {{item.c_id}}" data-id="{{index}}" catchtap='sharebutton'>
         <image class='share' src='share2.png'></image>
       </button>
 

@@ -5,7 +5,7 @@
       <view class="weui-cells__title">志愿活动ID</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input name="contract_id" class="weui-input" placeholder="请输入活动ID" value="{{contract_id}}"/>
+          <input name="_id" class="weui-input" placeholder="请输入活动ID" value="{{c_id}}"/>
         </view>
       </view>
     </view>
