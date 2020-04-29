@@ -1,18 +1,30 @@
 // pages/appeal/appeal.js
+const tool = require("../../utils/taas_api.js");
+
+
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    text: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: async function (options) {
+    var hash = await tool.mysave("hahhah");
+    console.log(hash);
+    var res = await tool.mycheck(hash);
+    console.log(res);
+    var data = res.data;
+    var text = data.text || null;
+    var type = data.type || null;
+    data = data.data || null;
+    this.setData({data, text, type});
   },
 
   /**
