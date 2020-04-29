@@ -2,7 +2,7 @@
 const blockchain = require('../../utils/chain_access.js')
 const app = getApp()
 
-const taas = require("miniprogram-taas-sdk");
+const app = getApp()
 
 Page({
 
@@ -13,7 +13,7 @@ Page({
     step: 1,
     title: "",
     content: "",
-    peoplenumber: 0,
+    need_number: 0,
     contentId: ""
   },
 
@@ -22,17 +22,16 @@ Page({
    */
   onLoad: function (options) {
     // 需检查是否授权有 openid，如无需获取
-
     if (!app.globalData.openid) {
       console.log("no login")
       wx.showModal({
         title: '提示',
         content: '请登录后进行申请',
         showCancel: false,
-        success(res) {
+        success (res) {
           if (res.confirm) {
             wx.navigateBack({
-              complete: (res) => { },
+              complete: (res) => {},
             })
           }
         }
@@ -44,7 +43,7 @@ Page({
       step: 2,
       title: e.detail.value.Title,
       content: e.detail.value.Content,
-      peoplenumber: e.detail.value.PeopleNumber
+      need_number: e.detail.value.PeopleNumber
     })
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
   },
@@ -55,13 +54,18 @@ Page({
     })
   },
 
-  sub2tass: function () {
+  sub2database: function () {
     // 构造json数组
     var json = {
-      title: this.data.title,
+      HashId: "",
+      attenders: [],
       content: this.data.content,
-      people_number: this.data.peoplenumber,
-      now_signal_number: 0
+      contract_id: "",
+      contract_url: "",
+      need_number: this.data.need_number,
+      onChain: false,
+      owner: app.globalData.openid,
+      title: this.data.title  
     }
     console.log(json)
     // 上传至数据库
@@ -77,6 +81,13 @@ Page({
           title: '新增记录成功',
         })
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+        db.collection('Accounts').where({
+          _openid: app.globalData.openid
+        }).update({
+          data: {
+            contract_Set: db.command.push(this.data.contentId)
+          }
+        })
         this.setData({
           step: 3
         })
@@ -89,5 +100,11 @@ Page({
         console.error('[数据库] [新增记录] 失败：', err)
       }
     })
-  },
+   },
+
+  copyid: function () {
+    wx.setClipboardData({
+      data: this.data.contentId
+    })
+   }
 })
