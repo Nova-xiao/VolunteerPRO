@@ -48,6 +48,10 @@
       </view>
     </view>
     <view class="page-section">
+      <view class="weui-cells__title">展示图片</view>
+      <image src="{{path}}"></image>
+    </view>
+    <view class="page-section">
       <view class="weui-cells__title">是否上链</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">

@@ -20,10 +20,14 @@ Page({
     //本人是否能参与
     canAttend: true,
     //报名按钮文字
-    btnText: "点击报名"
+    btnText: "点击报名",
+    img: null,
+    //base64编码图片
+    path: null
+    //图片路径
   },
 
-  onLoad: function (options) {
+  onLoad: async function (options) {
     // 需检查是否授权有 openid，如无需获取
     if (!app.globalData.openid) {
       console.log("no login")
@@ -42,7 +46,15 @@ Page({
     }
     if(options._id){
       //如果有_id，直接跳转到对应协议查看
-      util.getDataById(options._id, this)
+      await util.getDataById(options._id, this)
+      if(this.data.img != null){
+        util.base64src(this.data.img, res => {
+          console.log(res)
+          this.setData({
+            path: res
+          })
+        })
+      }
     }
   },
 
@@ -100,7 +112,8 @@ Page({
         attenders: this.data.peopleset,
         need_number: this.data.peoplenumber,
         title: this.data.title,
-        content: this.data.content
+        content: this.data.content,
+        img: this.data.img
       }
 
       var uploadData = JSON.stringify(blockData);

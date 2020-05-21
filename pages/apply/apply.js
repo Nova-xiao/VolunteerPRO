@@ -14,7 +14,11 @@ Page({
     content: "",
     need_number: 0,
     contentId: "",
-    contractNum: 0
+    contractNum: 0,
+    img: null,
+    //base64编码图片
+    path: null
+    //图片本地路径
   },
 
   /**
@@ -40,6 +44,7 @@ Page({
     util.getNum(this)
     console.log(this.data.contractNum)
   },
+
   formSubmit: function (e) {
     this.setData({
       step: 2,
@@ -48,6 +53,31 @@ Page({
       need_number: e.detail.value.PeopleNumber
     })
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  },
+
+  bindChooseImage: function(e){
+    var that = this
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: res=>{
+        that.setData({
+          path: res.tempFilePaths[0]
+        })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0],
+          encoding: 'base64',
+          success: res =>{
+            //成功读取到文件的base64格式数据，加上图片头
+            var img = 'data:image/png;base64,' + res.data
+            console.log(img)
+            that.setData({
+              img: img
+            })
+          }
+        })
+      }
+    })
   },
 
   Modify: function () {
@@ -70,6 +100,7 @@ Page({
       onChain: false,
       owner: app.globalData.openid,
       title: this.data.title,
+      img: this.data.img
     }
     console.log(json)
     // 上传至数据库

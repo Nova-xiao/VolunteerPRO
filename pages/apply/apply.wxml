@@ -26,6 +26,9 @@
       </view>
     </view>
     <view>
+      <button bindtap="bindChooseImage">选择图片</button>
+    </view>
+    <view>
       <button formType="submit">确定</button>
     </view>
   </form>
@@ -46,6 +49,10 @@
           <view class="weui-textarea">{{content}}</view>
         </view>
       </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">图片</view>
+      <image src="{{path}}"></image>
     </view>
     <view class="page-section">
       <view class="weui-cells__title">预计参与人数</view>

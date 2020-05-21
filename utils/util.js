@@ -3,6 +3,34 @@ const db = wx.cloud.database()
 const chainUtil = require("chain_access.js")
 const app = getApp()
 
+const fsm = wx.getFileSystemManager();
+const FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
+
+function base64src(base64data, cb) {
+  //cb为回调函数
+  const [, format, bodyData] = /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
+  console.log(format, bodyData)
+  //分解base64图片头和数据
+  if (!format) {
+    console.log("Base64 parse error")
+    return
+  }
+  const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+  const buffer = wx.base64ToArrayBuffer(bodyData);
+  console.log(filePath)
+  fsm.writeFile({
+    filePath,
+    data: buffer,
+    encoding: 'binary',
+    success() {
+      cb(filePath);
+    },
+    fail() {
+      console.log("Base64 write error")
+    },
+  });
+};
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -116,7 +144,8 @@ function getDataById(id, that) {
         peopleset: res.data["attenders"],
         _id: res.data["_id"],
         onChain: res.data["onChain"],
-        hashId: res.data["HashId"]
+        hashId: res.data["HashId"],
+        img: res.data["img"]
       })
       //如果在链上，重新取
       if (that.data.onChain) {
@@ -127,7 +156,8 @@ function getDataById(id, that) {
           content: chainData.content,
           peoplenumber: chainData.need_number,
           peopleset: chainData.attenders,
-          _id: chainData._id
+          _id: chainData._id,
+          img: chainData.img
         })
         console.log("根据链上数据进行更新!")
       }
@@ -149,6 +179,12 @@ function getDataById(id, that) {
           })
         }
       }
+      //转换img
+      base64src(that.data.img, res =>{
+        that.setData({
+          path: res
+        })
+      })
 
     })
 }
@@ -158,5 +194,6 @@ module.exports = {
   getAccountInfo: getAccountInfo,
   getAll: getAll,
   getNum: getNum,
-  getDataById: getDataById
+  getDataById: getDataById,
+  base64src: base64src
 }
