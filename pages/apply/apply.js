@@ -1,6 +1,7 @@
 // pages/apply/apply.js
-
+const blockchain = require('../../utils/chain_access.js')
 const app = getApp()
+const util = require("../../utils/util.js")
 
 Page({
 
@@ -11,8 +12,13 @@ Page({
     step: 1,
     title: "",
     content: "",
-    peoplenumber: 0,
-    contentId: ""
+    need_number: 0,
+    contentId: "",
+    contractNum: 0,
+    img: null,
+    //base64编码图片
+    path: null
+    //图片本地路径
   },
 
   /**
@@ -35,15 +41,43 @@ Page({
         }
       })
     }
+    util.getNum(this)
+    console.log(this.data.contractNum)
   },
+
   formSubmit: function (e) {
     this.setData({
       step: 2,
       title: e.detail.value.Title,
       content: e.detail.value.Content,
-      peoplenumber: e.detail.value.PeopleNumber
+      need_number: e.detail.value.PeopleNumber
     })
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  },
+
+  bindChooseImage: function(e){
+    var that = this
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: res=>{
+        that.setData({
+          path: res.tempFilePaths[0]
+        })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0],
+          encoding: 'base64',
+          success: res =>{
+            //成功读取到文件的base64格式数据，加上图片头
+            var img = 'data:image/png;base64,' + res.data
+            console.log(img)
+            that.setData({
+              img: img
+            })
+          }
+        })
+      }
+    })
   },
 
   Modify: function () {
@@ -52,18 +86,26 @@ Page({
     })
   },
 
-  sub2tass: function () {
+  sub2database: function () {
+    //获得总合约数，为生成contract_id准备
+    util.getNum(this)
     // 构造json数组
     var json = {
-      title: this.data.title,
+      HashId: "",
+      attenders: [],
       content: this.data.content,
-      people_number: this.data.peoplenumber,
-      now_signal_number: 0  
+      contract_id: this.data.contractNum,
+      contract_url: "",
+      need_number: this.data.need_number,
+      onChain: false,
+      owner: app.globalData.openid,
+      title: this.data.title,
+      img: this.data.img
     }
     console.log(json)
     // 上传至数据库
     const db = wx.cloud.database()
-    db.collection('Contents').add({
+    db.collection('Contracts').add({
       data: json,
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id
@@ -74,6 +116,13 @@ Page({
           title: '新增记录成功',
         })
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+        db.collection('Accounts').where({
+          _openid: app.globalData.openid
+        }).update({
+          data: {
+            contract_Set: db.command.push(this.data.contentId)
+          }
+        })
         this.setData({
           step: 3
         })
@@ -87,4 +136,10 @@ Page({
       }
     })
    },
+
+  copyid: function () {
+    wx.setClipboardData({
+      data: this.data.contentId
+    })
+   }
 })

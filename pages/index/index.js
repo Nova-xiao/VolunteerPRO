@@ -1,4 +1,6 @@
-const taas = require("taas");
+
+const taas = require("miniprogram-taas-sdk");
+
 //index.js
 //获取应用实例
 const app = getApp()
@@ -63,6 +65,7 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+    
   },
   
   clickBtn1: function (e) {

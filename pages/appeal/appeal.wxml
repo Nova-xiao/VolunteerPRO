@@ -1,2 +1,7 @@
 <!--pages/appeal/appeal.wxml-->
 <text>pages/appeal/appeal.wxml</text>
+
+<view wx:if="{{text !== null}}">
+  <view>文本</view>
+  <text>{{text}}</text>
+</view>
