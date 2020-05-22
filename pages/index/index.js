@@ -84,5 +84,11 @@ Page({
     wx.navigateTo({
       url: '/pages/appeal/appeal'
     })
+  },
+
+  clickBtn4: function (e) {
+    wx.navigateTo({
+      url: '/pages/mine/mine'
+    })
   }
 })

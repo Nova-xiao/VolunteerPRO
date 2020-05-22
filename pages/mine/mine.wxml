@@ -1,0 +1,25 @@
+<scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
+  <view wx:for="{{list}}" wx:key="index">
+    <view class="navbutton" catchtap="clickbutton" id="{{item._id}}">
+        
+        <!--文字部分-->
+        <!--标题文字-->
+        <text class='titleText'>
+          {{item.title}}
+        </text>
+
+      <!--分享按钮-->
+      <view class='digest'>
+        {{item.content}}
+      </view>
+      
+      <view class='mat'></view>
+
+      <button style="width:39rpx;height:36rpx;position:absolute;right:29rpx;  bottom:39rpx;background-color: white;padding: 0rpx 0rpx;border-radius: 0;"    open-type='share' data-imUrl="{{item.article.thumb_url}}" data-_id=" {{item.c_id}}" data-id="{{index}}" catchtap='sharebutton'>
+        <image class='share' src='share2.png'></image>
+      </button>
+
+    </view>
+
+  </view>
+</scroll-view>
