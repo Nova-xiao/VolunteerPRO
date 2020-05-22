@@ -6,7 +6,8 @@
     "pages/appeal/appeal",
     "pages/apply/apply",
     "pages/check/check",
-    "pages/display/display"
+    "pages/display/display",
+    "pages/mine/mine"
   ],
   "window": {
     "backgroundTextStyle": "light",
