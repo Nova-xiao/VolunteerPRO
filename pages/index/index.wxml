@@ -17,8 +17,12 @@
       <text class="worktext">查 看</text>
     </button>
     <button class="workbtn3" catchtap="clickBtn3">
-      <image class="workicon" src="appeal.png"></image>
+      <image class="workicon" src="appeal1.png"></image>
       <text class="worktext">申 诉</text>
+    </button>
+    <button class="workbtn4" catchtap="clickBtn4">
+      <image class="workicon" src="head.png"></image>
+      <text class="worktext">我 的</text>
     </button>
   </view>
 </view>
