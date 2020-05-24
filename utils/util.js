@@ -168,6 +168,11 @@ function getDataById(id, that) {
 				hashId: res.data["HashId"],
 				img: res.data["img"]
 			})
+			if (res.data["_openid"] == app.globalData.openid){
+				that.setData({
+					canCancel:true
+				})
+			}
 			//如果在链上，重新取
 			if (that.data.onChain) {
 				var json = await chainUtil.queryEvidence(that.data.hashId)
@@ -178,7 +183,8 @@ function getDataById(id, that) {
 					peoplenumber: chainData.need_number,
 					peopleset: chainData.attenders,
 					_id: chainData._id,
-					img: chainData.img
+					img: chainData.img,
+					canCancel:false
 				})
 				console.log("根据链上数据进行更新!")
 			}
@@ -188,8 +194,14 @@ function getDataById(id, that) {
 			if (attendIndex > -1) {
 				that.setData({
 					canAttend: false,
+					canRetreat: true,
 					btnText: "已报名"
 				})
+				if (that.data.onChain) {
+					that.setData({
+						canRetreat: false
+					})
+				}
 			}
 			else {
 				//检查是否人已满
