@@ -19,6 +19,10 @@ Page({
     hashId: "",
     //本人是否能参与
     canAttend: true,
+    //本人是否能撤销
+    canRetreat: false,
+    //本人是否能终止活动
+    canCancel: false,
     //报名按钮文字
     btnText: "点击报名",
     img: null,
@@ -135,42 +139,47 @@ Page({
       })
 
     }
+   },
 
-    /*
-    //根据人数判断是否需要上链
-    if(this.data.peopleset.length == this.data.need_number){
-      //需要
-      //调用sdk上链
-      var blockData = {
-        _id: this.data._id,
-        attenders: this.data.peopleset,
-        need_number: this.data.peoplenumber,
-        title: this.data.title,
-        content: this.data.content
+  Retreat: async function() {
+    console.log(this.data.peopleset)
+    this.data.peopleset.splice(this.data.peopleset.indexOf(this.data.openid))
+    db.collection('Contracts').doc(this.data._id).update({
+      data: {
+        attenders: this.data.peopleset
+      },
+      success: res => {
+        wx.showToast({
+          title: '取消报名成功！',
+        })
+        console.log('取消报名成功!')
+      },
+      fail: err => {
+        wx.showToast({
+          title: '取消报名失败…',
+        })
+        console.log('取消报名失败：', err)
       }
-      chainUtil.store(blockData)
-    }
-    else{
-      //不需要
-      db.collection('Contracts').doc(this.data._id).update({
-        data: {
-          attenders: this.data.peopleset
-        },
-        success: res => {
-          wx.showToast({
-            title: '报名成功！',
-          })
-          console.log('报名成功!')
-        },
-        fail: err => {
-          wx.showToast({
-            title: '报名失败…',
-          })
-          console.log('报名失败：', err)
-        }
-      })
-    }
-*/
-    //this.onLoad();
-   }
+    })
+    console.log(this.data.peopleset)
+    console.log("取消报名成功")
+  },
+  Cancel: async function() {
+    console.log(this.data._id)
+    db.collection('Contracts').doc(this.data._id).remove({
+      success:function(res) {
+        wx.showToast({
+          title: '终止活动成功！',
+        })
+        console.log('终止活动成功!')
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '终止活动失败！'
+        })
+        console.log('终止活动失败！')
+      }
+    })
+  }
 })
+

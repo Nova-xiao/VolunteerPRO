@@ -73,6 +73,12 @@
   <view wx:else>
     <button class="cantAttend">{{btnText}}</button>
   </view>
+  <view wx:if="{{canRetreat}}">
+    <button bindtap="Retreat">取消报名</button>
+  </view>
+  <view wx:if="{{canCancel}}">
+    <button bindtap="Cancel">终止活动</button>
+  </view>
     <button bindtap="Close">浏览完毕</button>
 </view>
 <view wx:else class="weui-msg">
