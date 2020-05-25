@@ -1,0 +1,8 @@
+/* pages/check/check.wxss */
+.page-section{
+  margin-bottom: 20rpx;
+}
+
+.cantAttend{
+  background-color: lightgray
+}

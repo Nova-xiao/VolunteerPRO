@@ -1,0 +1,25 @@
+<!--pages/check/check.wxml-->
+<view wx:if="{{step == 1}}">
+  <form bindsubmit="formSubmit" >
+  <view class="page-section">
+      <view class="weui-cells__title">申诉内容</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <input name="content" class="weui-input" placeholder="请输申诉内容" />
+        </view>
+      </view>
+    </view>
+    <view>
+      <button formType="submit">提交</button>
+    </view>
+  </form>
+  <view>
+    <button bindtap="Close">取消</button>
+  </view>
+</view>
+<view wx:else class="weui-msg">
+  <view class="weui-msg__text-area">提交完成 </view>
+  <view class="weui-msg__text-area">申诉id为：</view>
+  <view class="weui-msg__text-area">{{contentId}}</view>
+  <view class="weui-msg__link" bindtap="copyid" >点击复制申诉id</view>
+</view>
