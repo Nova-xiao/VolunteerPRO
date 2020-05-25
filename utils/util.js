@@ -155,6 +155,14 @@ function getDataById(id, that) {
 		_id: id
 	})
 	//分辨是否在链上
+	db.collection('Accounts').where({
+		_openid:app.globalData.openid
+	}).get().then(async res => {
+		that.setData({
+			myContracts: res.data[0].contract_Set
+		})
+
+	})
 	db.collection('Contracts').doc(that.data._id)
 		.get().then(async res => {
 			console.log(res)
@@ -220,6 +228,10 @@ function getDataById(id, that) {
 			})
 
 		})
+		console.log("Successfully get contract set and it is:")
+		console.log(that.data.myContracts)
+		console.log(that.data.peopleset)
+		console.log(that.data.peoplenumber)
 }
 
 module.exports = {

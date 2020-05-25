@@ -17,6 +17,10 @@ Page({
     peopleset: [],
     onChain: false,
     hashId: "",
+    // tmp contract list
+    tmp_contract_list: [],
+    //本人合同list
+    myContracts: [],
     //本人是否能参与
     canAttend: true,
     //本人是否能撤销
@@ -142,8 +146,11 @@ Page({
    },
 
   Retreat: async function() {
-    console.log(this.data.peopleset)
-    this.data.peopleset.splice(this.data.peopleset.indexOf(this.data.openid))
+    console.log("people set" , this.data.peopleset)
+    this.data.peopleset.splice(this.data.peopleset.indexOf(this.data.openid), 1)
+   
+    this.data.myContracts.splice(this.data.myContracts.indexOf(this.data._id), 1)
+    console.log(this.data.myContracts)
     db.collection('Contracts').doc(this.data._id).update({
       data: {
         attenders: this.data.peopleset
@@ -161,11 +168,40 @@ Page({
         console.log('取消报名失败：', err)
       }
     })
+    db.collection('Accounts').where({
+      _openid:app.globalData.openid
+    }).update({
+      data:{
+        contract_Set:this.data.myContracts
+      }
+    })
     console.log(this.data.peopleset)
     console.log("取消报名成功")
   },
   Cancel: async function() {
     console.log(this.data._id)
+    for (var peopleId of this.data.peopleset) {
+      db.collection('Accounts').where({
+        _openid:peopleId
+      }).get().then(res => {
+        this.setData({
+          tmp_contract_list: res.data[0].contract_Set
+        })
+        console.log(res)
+        console.log("tmpcontract set: ", this.data.tmp_contract_list)
+        console.log("this.data._id = ", this.data._id)
+        console.log("The idx...:", this.data.tmp_contract_list.indexOf(this.data._id))
+        this.data.tmp_contract_list.splice(this.data.tmp_contract_list.indexOf(this.data._id), 1)
+        console.log("tmpcontract set: ",  this.data.tmp_contract_list)
+        db.collection('Accounts').where({
+          _openid:peopleId
+        }).update({
+          data: {
+            contract_Set: this.data.tmp_contract_list
+          }
+        })
+      })
+    }
     db.collection('Contracts').doc(this.data._id).remove({
       success:function(res) {
         wx.showToast({
