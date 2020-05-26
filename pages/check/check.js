@@ -33,8 +33,9 @@ Page({
     btnText: "点击报名",
     img: null,
     //base64编码图片
-    path: null
+    path: null,
     //图片路径
+    appealed:false
   },
 
   onLoad: async function (options) {
@@ -65,6 +66,12 @@ Page({
           })
         })
       }
+    }
+    if(options.appealed){
+      this.setData({
+        appealed: options.appealed
+      })
+      console.log("appealed = ", options.appealed)
     }
   },
 
@@ -223,7 +230,7 @@ Page({
     console.log("navigating to report page", this.data._id)
     //var __id = this.data._id
     wx.navigateTo({
-      url: '/pages/report/report?id='+this.data._id
+      url: '/pages/report/report?id='+this.data._id+'&title='+this.data.title
     })
   }
 })

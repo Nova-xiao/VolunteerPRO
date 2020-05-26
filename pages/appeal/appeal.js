@@ -1,64 +1,63 @@
-// pages/appeal/appeal.js
-const tool = require("../../utils/chain_access.js");
-
-
+const util = require("../../utils/util.js")
 
 Page({
-
-
-  /**
-   * 页面的初始数据
-   */
+  //页面数据与全局数据同步
+  //更新时，先刷新全局数据，再根据全局数据刷新页面数据
   data: {
-    text: null
+    contractNum: 0,
+    list: [],
+    reachBottom: false,
+    windowHeight: "",
+    windowWidth: "",
+    onShowGroup: "all"
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  //渲染前获取视图层信息
+  onShow: function (e) {
+    wx.getSystemInfo({
+      success: (res) => {
+        this.setData({
+          windowHeight: res.windowHeight,
+          windowWidth: res.windowWidth
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  toTop: function () {
+    this.setData({
+      scrollTop: 0,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  //onLoad函数
+  onLoad: function () {
+    this.setData({
+      reachBottom: false
+    })
+    //获取所有协议列表
+    util.getAppeal(this)
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  //对点击button的事件进行处理
+  clickbutton: function (e) {
+    console.log(e);
+    wx.navigateTo({
+      url: '/pages/report/report?appealId=' + e.currentTarget.id
+    })
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
+  //下拉加载刷新
   onPullDownRefresh: function () {
-
+    console.log("下拉刷新")
+    wx.stopPullDownRefresh()
+    this.onLoad()
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
-
+    console.log("下拉刷新")
+    this.onLoad()
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
+

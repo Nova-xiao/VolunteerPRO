@@ -116,6 +116,23 @@ function getAll(that) {
 	)
 }
 
+//获取所有申诉记录
+function getAppeal(that) {
+	var contractDb = db.collection("Appeals")
+	contractDb.count().then(res => {
+		that.setData({
+			contractNum: res.total
+		})
+		contractDb.get().then(res => {
+			console.log(res.data)
+			that.setData({
+				list: res.data
+			})
+		})
+	}
+	)
+}
+
 function getMine(that) {
 	var myid = app.globalData.openid;
 	var AccountDb = db.collection("Accounts")
@@ -239,6 +256,7 @@ module.exports = {
 	formatTime: formatTime,
 	getAccountInfo: getAccountInfo,
 	getAll: getAll,
+	getAppeal: getAppeal,
 	getMine: getMine,
 	getNum: getNum,
 	getDataById: getDataById,

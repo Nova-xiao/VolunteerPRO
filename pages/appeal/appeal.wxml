@@ -1,7 +1,31 @@
-<!--pages/appeal/appeal.wxml-->
-<text>pages/appeal/appeal.wxml</text>
+<scroll-view scroll-x="true" class="menubar">
+  <!--上方菜单栏-->
+  <view class="menu">
 
-<view wx:if="{{text !== null}}">
-  <view>文本</view>
-  <text>{{text}}</text>
-</view>
+    <text class="{{onShowGroup=='all'?'active':''}}" id="all" bindtap="clickmenu">全部申诉记录</text>
+
+  </view>
+</scroll-view>
+<!--内容-->
+<scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
+
+  <view wx:for="{{list}}" wx:key="index">
+    <view class="navbutton" catchtap="clickbutton" id="{{item._id}}">
+        
+        <!--文字部分-->
+        <!--标题文字-->
+        <text class='titleText'>
+          {{item.title}}
+        </text>
+
+      <!--分享按钮-->
+      <view class='digest'>
+        {{item.content}}
+      </view>
+      
+      <view class='mat'></view>
+
+    </view>
+
+  </view>
+</scroll-view>
