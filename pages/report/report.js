@@ -127,6 +127,14 @@ Page({
             appeal_Set: db.command.push(this.data.appealId)
           }
         })
+        db.collection('Contracts').where({
+          _id: this.data.contractId
+        }).update({
+          data: {
+            appealers: db.command.push(app.globalData.openid),
+            appealed: true
+          }
+        })
         this.setData({
           step: 2
         })

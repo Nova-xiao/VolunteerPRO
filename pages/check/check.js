@@ -35,7 +35,8 @@ Page({
     //base64编码图片
     path: null,
     //图片路径
-    appealed:false
+    appealed:false,
+    appealer:[]
   },
 
   onLoad: async function (options) {

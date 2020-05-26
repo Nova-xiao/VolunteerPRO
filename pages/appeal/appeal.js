@@ -36,7 +36,8 @@ Page({
       reachBottom: false
     })
     //获取所有协议列表
-    util.getAppeal(this)
+    var that = this
+    util.getAppeal(that)
   },
 
   //对点击button的事件进行处理
