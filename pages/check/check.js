@@ -189,7 +189,26 @@ Page({
     this.Close()
   },
   Cancel: async function() {
-    console.log(this.data._id)
+    db.collection('Accounts').where({
+      _openid:app.globalData.openid
+    }).get().then(res => {
+      this.setData({
+        tmp_contract_list: res.data[0].contract_Set
+      })
+      console.log(res)
+      console.log("tmpcontract set: ", this.data.tmp_contract_list)
+      console.log("this.data._id = ", this.data._id)
+      console.log("The idx...:", this.data.tmp_contract_list.indexOf(this.data._id))
+      this.data.tmp_contract_list.splice(this.data.tmp_contract_list.indexOf(this.data._id), 1)
+      console.log("tmpcontract set: ",  this.data.tmp_contract_list)
+      db.collection('Accounts').where({
+        _openid:app.globalData.openid
+      }).update({
+        data: {
+          contract_Set: this.data.tmp_contract_list
+        }
+      })
+    })
     for (var peopleId of this.data.peopleset) {
       db.collection('Accounts').where({
         _openid:peopleId
