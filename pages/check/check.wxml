@@ -79,7 +79,7 @@
   <view wx:if="{{canCancel}}">
     <button bindtap="Cancel">终止活动</button>
   </view>
-  <view wx:if="{{canReport}}">
+  <view wx:if="{{canReport && appealed==false}}">
     <button bindtap="Report">申诉</button>
   </view>
     <button bindtap="Close">浏览完毕</button>

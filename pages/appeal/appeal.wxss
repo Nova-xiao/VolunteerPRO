@@ -1,1 +1,151 @@
 /* pages/appeal/appeal.wxss */
+
+/*menubar*/
+
+.menubar {
+  height: 95rpx;
+  background: white;
+  white-space: nowrap;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+}
+
+.menu {
+  background-color: white;
+  height: 85rpx;
+  line-height: 85rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.menu text {
+  display: inline-block;
+  font-size: 30rpx;
+  height: 75%;
+  text-align: center;
+  padding-bottom: 5rpx;
+  margin: 0 30rpx 0 30rpx;
+  letter-spacing: 1.5rpx;
+  font-weight: 500;
+}
+
+.menu text.active {
+  color: #3E262A;
+  font-weight: 500;
+  border-bottom-style: solid;
+  border-bottom-color: #3E262A;
+  border-bottom-width: thin;
+}
+
+
+.content {
+  height: 100vh;
+  
+  transition:all 0.5s;
+  padding-top: 95rpx;
+  /*display: flex;*/
+  background-color: #f6f6f6;
+}
+
+.navbutton {
+  width: 700rpx;
+  margin: 27rpx auto;
+  padding: 0 0 20rpx 0;
+  border-radius: 16rpx;
+  border: 0px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.content image {
+  width: 100%;
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.titleText {
+  display: block;
+  /*font-family: "微软雅黑";*/
+  text-align: left;
+  font-size: 38rpx;
+  line-height: 50rpx;
+  letter-spacing: 0rpx;
+  font-weight: 700;
+  -webkit-text-stroke: 0.5px #fff;
+  margin-left: 24rpx;
+  margin: -23rpx 24rpx 15rpx 24rpx;
+  /*text-indent:-5rpx;*//*width: 90%;*/
+  padding-left: 0rpx;
+}
+
+.digest {
+  font-size: 30rpx;
+  color: #868686;
+  height: 60rpx;
+  width: 86%;
+  margin-top: 10rpx;
+  margin-left: 24rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.mat {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), white);
+  width: 300rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 70rpx;
+  bottom: 39rpx;
+  z-index: 9;
+  border-right: white 50rpx solid;
+}
+
+image.share {
+  width:39rpx;
+  height:36rpx;
+  position: absolute;
+  right: 0rpx;
+
+  border-radius: 0;
+}
+
+button.sharebutton{
+  width:39rpx;
+  height:36rpx;
+  position:absolute;
+  right:29rpx;
+  bottom:39rpx;
+  background-color: white;
+  padding: 0rpx 0rpx;
+  border-radius: 0;
+
+}
+
+button.sharebutton::after{
+  border: none;
+  border-radius: 0;
+}
+
+/*底线*/
+
+.bottomline {
+  text-align: center;
+  font-weight: 200;
+  font-size: 30rpx;
+  letter-spacing: 1rpx;
+  margin-top: 10rpx;
+  margin-bottom: 15rpx;
+}
+
+/*隐藏滚动条*/
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

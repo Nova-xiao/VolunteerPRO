@@ -5,7 +5,7 @@
       <view class="weui-cells__title">申诉内容</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input name="content" class="weui-input" placeholder="请输申诉内容" />
+          <input name="content" class="weui-input" placeholder="请输申诉内容" value="{{content}}"/>
         </view>
       </view>
     </view>
@@ -17,9 +17,41 @@
     <button bindtap="Close">取消</button>
   </view>
 </view>
+
+<view wx:elif="{{step == 2}}">
+  <view class="page-section">
+      <view class="weui-cells__title">志愿活动标题</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{title}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">申诉内容</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{content}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">申诉人</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-input">{{nickname}}</view>
+        </view>
+      </view>
+    </view>
+  <view>
+    <button bindtap="jump2check">活动页面</button>
+  </view>
+    <button bindtap="Close">确定</button>
+</view>
+
 <view wx:else class="weui-msg">
   <view class="weui-msg__text-area">提交完成 </view>
   <view class="weui-msg__text-area">申诉id为：</view>
-  <view class="weui-msg__text-area">{{contentId}}</view>
+  <view class="weui-msg__text-area">{{appealId}}</view>
   <view class="weui-msg__link" bindtap="copyid" >点击复制申诉id</view>
 </view>

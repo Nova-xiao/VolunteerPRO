@@ -93,6 +93,8 @@ Page({
     var json = {
       HashId: "",
       attenders: [],
+      appealers: [],
+      appealed: false,
       content: this.data.content,
       contract_id: this.data.contractNum,
       contract_url: "",
