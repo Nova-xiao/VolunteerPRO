@@ -88,7 +88,7 @@ Page({
     this.setData({
       peopleset:tmp
     });
-
+    this.data.myContracts.push(this.data._id)
     var that = this;
     console.log(this.data._id);
     //添加到数据库
@@ -109,7 +109,13 @@ Page({
         console.log('报名失败：', err)
       }
     })
-    
+    db.collection('Accounts').where({
+      _openid: app.globalData.openid
+    }).update({
+      data:{
+      contract_Set:this.data.myContracts
+      }
+    })
     console.log(this.data.peopleset.length);
     console.log(this.data.peoplenumber);
     // 检查是否上链
@@ -143,6 +149,7 @@ Page({
       })
 
     }
+    that.Close()
    },
 
   Retreat: async function() {
@@ -177,6 +184,7 @@ Page({
     })
     console.log(this.data.peopleset)
     console.log("取消报名成功")
+    this.Close()
   },
   Cancel: async function() {
     console.log(this.data._id)
@@ -216,6 +224,7 @@ Page({
         console.log('终止活动失败！')
       }
     })
+    this.Close()
   }
 })
 
