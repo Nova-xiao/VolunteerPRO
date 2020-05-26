@@ -203,6 +203,7 @@ function getDataById(id, that) {
 				that.setData({
 					canAttend: false,
 					canRetreat: true,
+					canReport: true,
 					btnText: "已报名"
 				})
 				if (that.data.onChain) {
