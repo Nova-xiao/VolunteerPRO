@@ -120,9 +120,6 @@ function getAll(that) {
 function getAppeal(that) {
 	var appealDb = db.collection("Appeals")
 	appealDb.count().then(res => {
-		that.setData({
-			contractNum: res.total
-		})
 		appealDb.get().then(res => {
 			console.log(res.data)
 			that.setData({
