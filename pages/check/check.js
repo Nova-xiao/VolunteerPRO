@@ -27,6 +27,8 @@ Page({
     canRetreat: false,
     //本人是否能终止活动
     canCancel: false,
+    //本人是否能投诉
+    canReport: false,
     //报名按钮文字
     btnText: "点击报名",
     img: null,
@@ -225,6 +227,13 @@ Page({
       }
     })
     this.Close()
+  },
+  Report: async function() {
+    console.log("navigating to report page", this.data._id)
+    //var __id = this.data._id
+    wx.navigateTo({
+      url: '/pages/report/report?id='+this.data._id
+    })
   }
 })
 
