@@ -119,15 +119,12 @@ function getAll(that) {
 //获取所有申诉记录
 function getAppeal(that) {
 	var appealDb = db.collection("Appeals")
-	appealDb.count().then(res => {
-		appealDb.get().then(res => {
-			console.log(res.data)
-			that.setData({
-				list: res.data
-			})
+	appealDb.get().then(res => {
+		console.log(res.data)
+		that.setData({
+			list: res.data
 		})
-	}
-	)
+	})
 }
 
 function getMine(that) {
