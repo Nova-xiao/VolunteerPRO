@@ -20,6 +20,7 @@ Page({
     appealId:"",
     //申诉人昵称
     nickname:"",
+    mynickname:"",
     onChain: false,
     hashId: "",
   },
@@ -50,7 +51,7 @@ Page({
         console.log(res);
         var nickName = 'userInfo.nickName';
         that.setData({
-          nickname: res.userInfo.nickName,
+          mynickname: res.userInfo.nickName,
         })
       }
     })
@@ -66,6 +67,7 @@ Page({
     }
     if(options.appealId){
       //console.log("Getting appealid: ", options.appealId)
+      var that = this;
       db.collection('Appeals').doc(options.appealId)
       .get().then(async res => {
         console.log(res)
@@ -95,7 +97,8 @@ Page({
   formSubmit: function (e) {
     console.log("Submitting ", e.detail.value.content)
     this.setData({
-      content: e.detail.value.content
+      content: e.detail.value.content,
+      nickname: this.data.mynickname
     })
 
     // 构造json数组
@@ -104,7 +107,7 @@ Page({
       content: this.data.content,
       claimant: app.globalData.openid,
       onChain: false,
-      nickname: this.data.nicknam,
+      nickname: this.data.mynickname,
       contractId: this.data.contractId
     }
     // 上传至数据库
