@@ -98,7 +98,7 @@ Page({
     this.setData({
       peopleset:tmp
     });
-
+    this.data.myContracts.push(this.data._id)
     var that = this;
     console.log(this.data._id);
     //添加到数据库
@@ -119,7 +119,13 @@ Page({
         console.log('报名失败：', err)
       }
     })
-    
+    db.collection('Accounts').where({
+      _openid: app.globalData.openid
+    }).update({
+      data:{
+      contract_Set:this.data.myContracts
+      }
+    })
     console.log(this.data.peopleset.length);
     console.log(this.data.peoplenumber);
     // 检查是否上链
@@ -153,6 +159,7 @@ Page({
       })
 
     }
+    that.Close()
    },
 
   Retreat: async function() {
@@ -187,9 +194,29 @@ Page({
     })
     console.log(this.data.peopleset)
     console.log("取消报名成功")
+    this.Close()
   },
   Cancel: async function() {
-    console.log(this.data._id)
+    db.collection('Accounts').where({
+      _openid:app.globalData.openid
+    }).get().then(res => {
+      this.setData({
+        tmp_contract_list: res.data[0].contract_Set
+      })
+      console.log(res)
+      console.log("tmpcontract set: ", this.data.tmp_contract_list)
+      console.log("this.data._id = ", this.data._id)
+      console.log("The idx...:", this.data.tmp_contract_list.indexOf(this.data._id))
+      this.data.tmp_contract_list.splice(this.data.tmp_contract_list.indexOf(this.data._id), 1)
+      console.log("tmpcontract set: ",  this.data.tmp_contract_list)
+      db.collection('Accounts').where({
+        _openid:app.globalData.openid
+      }).update({
+        data: {
+          contract_Set: this.data.tmp_contract_list
+        }
+      })
+    })
     for (var peopleId of this.data.peopleset) {
       db.collection('Accounts').where({
         _openid:peopleId
@@ -226,6 +253,7 @@ Page({
         console.log('终止活动失败！')
       }
     })
+    this.Close()
   },
   Report: async function() {
     console.log("navigating to report page", this.data._id)
