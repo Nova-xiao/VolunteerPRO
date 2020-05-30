@@ -9,7 +9,7 @@ Page({
         reachBottom: false,
         windowHeight: "",
         windowWidth: "",
-        onShowGroup: "all"
+        onShowGroup: "participate"
     },
 
     //渲染前获取视图层信息
@@ -36,7 +36,7 @@ Page({
             reachBottom: false
         })
         //获取所有协议列表
-        util.getMine(this)
+        util.getMyParticipate(this)
     },
 
     //对点击button的事件进行处理
@@ -58,6 +58,38 @@ Page({
         console.log("下拉刷新")
         this.onLoad()
     },
+
+
+    click_participate: function (e) {
+        if (this.data.onShowGroup != 'participate') {
+            this.setData({
+                onShowGroup: 'participate'
+            })
+            util.getMyParticipate(this)
+        }
+        console.log(this.data.onShowGroup)
+    },
+
+    click_create: function (e) {
+        if (this.data.onShowGroup != 'create') {
+            this.setData({
+                onShowGroup: 'create'
+            })
+            util.getMyCreate(this)
+        }
+        console.log(this.data.onShowGroup)
+    },
+
+    click_cert: function (e) {
+        if (this.data.onShowGroup != 'certificate') {
+            this.setData({
+                onShowGroup: 'certificate'
+            })
+            util.getMyCertificate(this)
+        }
+        console.log(this.data.onShowGroup)
+    },
+
 
     onShareAppMessage: function (res) {
         if (res.from == 'button') {

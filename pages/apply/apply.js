@@ -122,7 +122,7 @@ Page({
           _openid: app.globalData.openid
         }).update({
           data: {
-            contract_Set: db.command.push(this.data.contentId)
+            create_contract_Set: db.command.push(this.data.contentId)
           }
         })
         this.setData({

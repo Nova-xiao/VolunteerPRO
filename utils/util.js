@@ -127,7 +127,7 @@ function getAppeal(that) {
 	})
 }
 
-function getMine(that) {
+function getMyParticipate(that) {
 	var myid = app.globalData.openid;
 	var AccountDb = db.collection("Accounts")
 	var contractDb = db.collection("Contracts")
@@ -136,6 +136,9 @@ function getMine(that) {
 	}).get().then(res => {
 			var contract_set = res.data[0].contract_Set
 			var ret_set = new Array()
+			that.setData({
+				list: ret_set
+			})
 			for (var contractId of contract_set){
 				contractDb.doc(contractId).get().then(res => {
 						ret_set.push(res.data)
@@ -146,6 +149,38 @@ function getMine(that) {
 					})
 			}
 		})
+}
+
+function getMyCreate(that) {
+	var myid = app.globalData.openid;
+	var AccountDb = db.collection("Accounts")
+	var contractDb = db.collection("Contracts")
+	AccountDb.where({
+		_openid: myid
+	}).get().then(res => {
+		var contract_set = res.data[0].create_contract_Set
+		var ret_set = new Array()
+		that.setData({
+			list: ret_set
+		})
+		for (var contractId of contract_set) {
+			contractDb.doc(contractId).get().then(res => {
+				ret_set.push(res.data)
+				console.log(ret_set)
+				that.setData({
+					list: ret_set
+				})
+			})
+		}
+	})
+}
+
+function getMyCertificate(that){
+	var ret_set = new Array()
+	that.setData({
+		list: ret_set
+	})
+	console.log("Not implemented")
 }
 
 //获取协议总数
@@ -251,7 +286,9 @@ module.exports = {
 	getAccountInfo: getAccountInfo,
 	getAll: getAll,
 	getAppeal: getAppeal,
-	getMine: getMine,
+	getMyParticipate: getMyParticipate,
+	getMyCreate: getMyCreate,
+	getMyCertificate: getMyCertificate,
 	getNum: getNum,
 	getDataById: getDataById,
 	base64src: base64src
