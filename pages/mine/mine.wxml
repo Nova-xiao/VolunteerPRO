@@ -1,3 +1,15 @@
+<scroll-view scroll-x="true" class="menubar">
+  <!--上方菜单栏-->
+  <view class="menu">
+
+    <text class="{{onShowGroup=='participate'?'active':''}}" id="all" bindtap="click_participate">我参加的</text>
+    <text class="{{onShowGroup=='create'?'active':''}}" id="all" bindtap="click_create">我发起的</text>
+    <text class="{{onShowGroup=='certificate'?'active':''}}" id="all" bindtap="click_cert">我的证书</text>
+
+
+  </view>
+</scroll-view>
+<!--内容-->
 <scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
   <view wx:for="{{list}}" wx:key="index">
     <view class="navbutton" catchtap="clickbutton" id="{{item._id}}">
