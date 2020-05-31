@@ -15,7 +15,7 @@
         <!--文字部分-->
         <!--标题文字-->
         <text class='titleText'>
-          {{item.title}}
+          申诉活动：{{item.title}}
         </text>
 
       <!--分享按钮-->
