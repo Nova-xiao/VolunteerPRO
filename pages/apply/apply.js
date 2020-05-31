@@ -17,8 +17,14 @@ Page({
     contractNum: 0,
     img: null,
     //base64编码图片
-    path: null
+    path: null,
     //图片本地路径
+    apply_date: '2020-01-01',
+    apply_time: '00:00',
+    //报名截止时间
+    hold_date: '2020-01-01',
+    hold_time: '00:00'
+    //活动举办时间
   },
 
   /**
@@ -89,7 +95,7 @@ Page({
   sub2database: function () {
     //获得总合约数，为生成contract_id准备
     util.getNum(this)
-    // 构造json数组
+    // 构造json对象
     var json = {
       HashId: "",
       attenders: [],
@@ -102,7 +108,11 @@ Page({
       onChain: false,
       owner: app.globalData.openid,
       title: this.data.title,
-      img: this.data.img
+      img: this.data.img,
+      apply_date:  this.data.apply_date,
+      apply_time: this.data.apply_time,
+      hold_date: this.data.hold_date,
+      hold_time: this.data.hold_time
     }
     console.log(json)
     // 上传至数据库
@@ -143,5 +153,31 @@ Page({
     wx.setClipboardData({
       data: this.data.contentId
     })
-   }
+   },
+
+   apply_date_change: function(e) {
+    console.log('申请截止日期改变为', e.detail.value)
+    this.setData({
+      apply_date: e.detail.value
+    })
+  },
+  apply_time_change: function(e) {
+    console.log('申请截止时间改变为', e.detail.value)
+    this.setData({
+      apply_time: e.detail.value
+    })
+  },
+
+  hold_date_change: function(e) {
+    console.log('活动举行改变为', e.detail.value)
+    this.setData({
+      hold_date: e.detail.value
+    })
+  },
+  hold_time_change: function(e) {
+    console.log('活动举行时间改变为', e.detail.value)
+    this.setData({
+      hold_time: e.detail.value
+    })
+  }
 })

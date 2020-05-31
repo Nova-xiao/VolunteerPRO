@@ -9,7 +9,8 @@ Page({
     reachBottom: false,
     windowHeight: "",
     windowWidth: "",
-    onShowGroup: "all"
+    onShowGroup: "all",
+    now_time: ''
   },
 
   //渲染前获取视图层信息
@@ -37,6 +38,11 @@ Page({
     })
     //获取所有协议列表
     util.getAll(this)
+    var time = util.formatTime(new Date)
+    this.setData({
+      now_time: time
+    })
+    console.log(time);
   },
 
   //对点击button的事件进行处理
@@ -59,9 +65,12 @@ Page({
     this.onLoad()
   },
 
-  //切换栏目（暂未实现）
+  //切换栏目
   clickmenu: function (e) {
     console.log(e)
+    this.setData({
+      onShowGroup: e.currentTarget.id
+    })
   },
 
   onShareAppMessage: function (res) {
