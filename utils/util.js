@@ -99,21 +99,23 @@ function getAccountInfo(openid, that) {
 	return data
 }
 
-//获取所有协议
-function getAll(that) {
-	var contractDb = db.collection("Contracts")
-	contractDb.count().then(res => {
-		that.setData({
-			contractNum: res.total
-		})
-		contractDb.get().then(res => {
-			console.log(res.data)
-			that.setData({
-				list: res.data
-			})
-		})
-	}
-	)
+//获取定位的后十条数据
+function getList(that, offset) {
+  var contractDb = db.collection("Contracts")
+  contractDb.count().then(res => {
+    console.log("contractNum = " + res.total)
+    that.setData({
+      contractNum: res.total
+    })
+    //先获取总数再获取列表
+    contractDb.skip(offset).limit(10).get().then(res => {
+      console.log(res.data)
+      var newList = that.data.list.concat(res.data)
+      that.setData({
+        list: newList
+      })
+    })
+  })
 }
 
 //获取所有申诉记录
@@ -187,7 +189,7 @@ function getMyCertificate(that){
 function getNum(that) {
 	var contractDb = db.collection("Contracts")
 	contractDb.count().then(res => {
-		console.log(res.total)
+		console.log("contractNum = "+ res.total)
 		that.setData({
 			contractNum: res.total
 		})
@@ -284,7 +286,7 @@ function getDataById(id, that) {
 module.exports = {
 	formatTime: formatTime,
 	getAccountInfo: getAccountInfo,
-	getAll: getAll,
+	getList: getList,
 	getAppeal: getAppeal,
 	getMyParticipate: getMyParticipate,
 	getMyCreate: getMyCreate,

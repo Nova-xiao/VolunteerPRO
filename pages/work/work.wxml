@@ -7,7 +7,7 @@
   </view>
 </scroll-view>
 <!--内容-->
-<scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" >
+<scroll-view scroll-y="true" class="content" scroll-top='{{scrollTop}}' style="height: {{windowHeight}}px; width: {{windowWidth}}px;" bindscrolltolower="loadMore">
 
   <view wx:for="{{list}}" wx:key="index">
     <view class="navbutton" catchtap="clickbutton" id="{{item._id}}">
@@ -31,5 +31,12 @@
 
     </view>
 
+  </view>
+  <view style='text-align:center;color:grey;font-size:4vw;letter-spacing:2vw;   margin-bottom:4vw;' wx:if="{{!reachBottom}}">
+  加载中...
+  </view>
+    <!--底线-->
+  <view style='text-align:center;color:grey;font-size:4vw;letter-spacing:2vw;margin-bottom:4vw;'  wx:if="{{reachBottom}}">
+    - 我是有底线的 -
   </view>
 </scroll-view>
