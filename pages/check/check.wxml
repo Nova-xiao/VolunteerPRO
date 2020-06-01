@@ -67,6 +67,18 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{isFinish && canUpload}}">
+      <button bindtap="bindChooseImage"> 上传完成图片 </button>
+    </view>
+    <view wx:if="{{isFinish}}">
+      <view class="page-section">
+        <view class="weui-cells__title">完成图片</view>
+        <image src="{{finish_img_path}}"></image>
+      </view>
+    </view>
+    <view wx:if="{{hasUpload}}">
+      <button bindtap="submitFinishImage"> 确认上传完成图片 </button>
+    </view>
   <view wx:if="{{canAttend}}">
     <button bindtap="sub2tass">点击报名</button>
   </view>

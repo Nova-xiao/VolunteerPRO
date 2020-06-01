@@ -21,6 +21,10 @@ Page({
     tmp_contract_list: [],
     //本人合同list
     myContracts: [],
+    // 合同是否完成
+    isFinish: false,
+    canUpload: false,
+    hasUPload: false,
     //本人是否能参与
     canAttend: true,
     //本人是否能撤销
@@ -32,6 +36,8 @@ Page({
     //报名按钮文字
     btnText: "点击报名",
     img: null,
+    finish_img: null,
+    finish_img_path: null,
     //base64编码图片
     path: null,
     //图片路径
@@ -59,15 +65,28 @@ Page({
     if(options._id){
       //如果有_id，直接跳转到对应协议查看
       await util.getDataById(options._id, this)
-      if(this.data.img != null){
-        util.base64src(this.data.img, res => {
-          console.log(res)
-          this.setData({
-            path: res
-          })
-        })
-      }
+
+      // if(this.data.img != null){
+      //   util.base64src(this.data.img, res => {
+      //     console.log(res)
+      //     this.setData({
+      //       path: res
+      //     })
+      //   })
+      // }
+      // if (this.data.finish_img != null) {
+      //   console.log("inside if conf")
+      //   util.base64src(this.data.finish_img, res => {
+      //     console.log(res)
+      //     this.setData({
+      //       finish_img_path: res
+      //     })
+      //     console.log("finish_img_path = ", this.data.finish_img_path)
+      //     console.log("finish_img = ", this.data.finish_img)
+      //   })
+      // }
     }
+  
     if(options.appealed){
       this.setData({
         appealed: options.appealed
@@ -261,6 +280,48 @@ Page({
     wx.navigateTo({
       url: '/pages/report/report?id='+this.data._id+'&title='+this.data.title
     })
+  },
+  bindChooseImage: function(e){
+    var that = this
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: res=>{
+        that.setData({
+          finish_img_path: res.tempFilePaths[0]
+        })
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePaths[0],
+          encoding: 'base64',
+          success: res =>{
+            //成功读取到文件的base64格式数据，加上图片头
+            var img = 'data:image/png;base64,' + res.data
+            console.log(img)
+            that.setData({
+              finish_img: img
+            })
+            this.setData({
+              canUpload: false,
+              hasUpload: true
+            })
+          }
+        })
+      }
+    })
+  },
+  submitFinishImage: function() {
+    db.collection('Contracts').doc(this.data._id).update({
+      data: {
+        finish_img:this.data.finish_img
+      },
+      success: function(res){
+        console.log("上传成功")
+        wx.showToast({
+          title: '上传成功',
+        })
+      }
+    })
+    this.Close()
   }
 })
 
