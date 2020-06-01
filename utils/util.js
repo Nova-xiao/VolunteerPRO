@@ -100,22 +100,34 @@ function getAccountInfo(openid, that) {
 }
 
 //获取定位的后十条数据
-function getList(that, offset) {
+function getList(that, offset, count) {
   var contractDb = db.collection("Contracts")
+  /*
   contractDb.count().then(res => {
     console.log("contractNum = " + res.total)
     that.setData({
       contractNum: res.total
     })
+    */
     //先获取总数再获取列表
-    contractDb.skip(offset).limit(10).get().then(res => {
+    contractDb.skip(offset).limit(count).get().then(res => {
       console.log(res.data)
-      var newList = that.data.list.concat(res.data)
+      var toAppend = []
+      for(var i of res.data){
+        toAppend.push({
+          title: i.title,
+          content: i.content,
+          _id: i._id
+        })
+      }
+      var newList = that.data.list.concat(toAppend)
       that.setData({
         list: newList
       })
     })
+    /*
   })
+  */
 }
 
 //获取所有申诉记录

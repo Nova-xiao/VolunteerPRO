@@ -36,8 +36,9 @@ Page({
       list: [],
       reachBottom: false
     })
+    util.getNum(this)
     //获取前十个协议列表
-    util.getList(this, 0)
+    util.getList(this, 0, 10)
   },
 
   //对点击button的事件进行处理
@@ -58,7 +59,13 @@ Page({
     console.log(this.data.list.length +":"+ this.data.contractNum)
     if(this.data.list.length < this.data.contractNum){
       console.log("上滑加载剩余数据")
-      util.getList(this, this.data.list.length)
+      var left = this.data.contractNum - this.data.list.length
+      if(left < 10){
+        util.getList(this, this.data.list.length, left)
+      }
+      else{
+        util.getList(this, this.data.list.length, 10)
+      }
     }
     else{
       console.log("已触底")
