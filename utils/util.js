@@ -328,7 +328,7 @@ module.exports = {
 	getAppeal: getAppeal,
 	getMyParticipate: getMyParticipate,
 	getMyCreate: getMyCreate,
-	getMyFinished: this.getMyFinished,
+	getMyFinished: getMyFinished,
 	getNum: getNum,
 	getDataById: getDataById,
 	base64src: base64src
