@@ -4,7 +4,7 @@
 
     <text class="{{onShowGroup=='participate'?'active':''}}" id="all" bindtap="click_participate">我参加的</text>
     <text class="{{onShowGroup=='create'?'active':''}}" id="all" bindtap="click_create">我发起的</text>
-    <text class="{{onShowGroup=='certificate'?'active':''}}" id="all" bindtap="click_cert">我的证书</text>
+    <text class="{{onShowGroup=='finish'?'active':''}}" id="all" bindtap="click_cert">我完成的</text>
 
 
   </view>

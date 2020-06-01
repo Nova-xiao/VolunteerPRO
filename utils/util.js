@@ -177,12 +177,34 @@ function getMyCreate(that) {
 	})
 }
 
-function getMyCertificate(that){
+function getMyFinished(that){
+	var myid = app.globalData.openid;
 	var ret_set = new Array()
 	that.setData({
 		list: ret_set
 	})
-	console.log("Not implemented")
+	var AccountDb = db.collection("Accounts")
+	var contractDb = db.collection("Contracts")
+	AccountDb.where({
+		_openid: myid
+	}).get().then(res => {
+		var contract_set = res.data[0].create_contract_Set
+		var ret_set = new Array()
+		that.setData({
+			list: ret_set
+		})
+		for (var contractId of contract_set) {
+			contractDb.doc(contractId).get().then(res => {
+				if (res.data.finish_img != null){
+					ret_set.push(res.data)
+					console.log(ret_set)
+					that.setData({
+						list: ret_set
+					})
+				}
+			})
+		}
+	})
 }
 
 //获取协议总数
@@ -306,7 +328,7 @@ module.exports = {
 	getAppeal: getAppeal,
 	getMyParticipate: getMyParticipate,
 	getMyCreate: getMyCreate,
-	getMyCertificate: getMyCertificate,
+	getMyFinished: this.getMyFinished,
 	getNum: getNum,
 	getDataById: getDataById,
 	base64src: base64src
