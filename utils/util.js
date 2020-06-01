@@ -6,7 +6,7 @@ const app = getApp()
 const fsm = wx.getFileSystemManager();
 const FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
 
-function base64src(base64data, cb) {
+function base64src(base64data, file_base_name, cb) {
 	//cb为回调函数
 	const [, format, bodyData] = /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
 	console.log(format, bodyData)
@@ -15,7 +15,7 @@ function base64src(base64data, cb) {
 		console.log("Base64 parse error")
 		return
 	}
-	const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+	const filePath = `${wx.env.USER_DATA_PATH}/${file_base_name}.${format}`;
 	const buffer = wx.base64ToArrayBuffer(bodyData);
 	console.log(filePath)
 	fsm.writeFile({
@@ -222,12 +222,23 @@ function getDataById(id, that) {
 				_id: res.data["_id"],
 				onChain: res.data["onChain"],
 				hashId: res.data["HashId"],
-				img: res.data["img"]
+				img: res.data["img"],
+				finish_img: res.data["finish_img"]
 			})
 			if (res.data["_openid"] == app.globalData.openid){
 				that.setData({
 					canCancel:true
 				})
+			}
+			if(res.data["onChain"] == true) {
+				that.setData({
+					isFinish: true
+				})
+				if (res.data["_openid"] == app.globalData.openid && res.data["finish_img"] == null) {
+					that.setData({
+						canUpload: true
+					})
+				}
 			}
 			//如果在链上，重新取
 			if (that.data.onChain) {
@@ -270,17 +281,22 @@ function getDataById(id, that) {
 				}
 			}
 			//转换img
-			base64src(that.data.img, res => {
+			base64src(that.data.img, "tmp_base64src" , res => {
 				that.setData({
 					path: res
 				})
+				console.log("re1s = ", res)
+				console.log("path = ", that.data.path)
 			})
-
+			base64src(that.data.finish_img, "tmp_finish_base64src", res => {
+				that.setData({
+					finish_img_path: res
+				})
+				console.log("res = ", res)
+				console.log("finish path = ", that.data.finish_img_path)
+			})
+			
 		})
-		console.log("Successfully get contract set and it is:")
-		console.log(that.data.myContracts)
-		console.log(that.data.peopleset)
-		console.log(that.data.peoplenumber)
 }
 
 module.exports = {
