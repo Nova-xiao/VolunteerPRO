@@ -102,7 +102,8 @@ Page({
       onChain: false,
       owner: app.globalData.openid,
       title: this.data.title,
-      img: this.data.img
+      img: this.data.img,
+      finish_img: null
     }
     console.log(json)
     // 上传至数据库
