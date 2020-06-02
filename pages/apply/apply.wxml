@@ -18,6 +18,46 @@
       </view>
     </view>
     <view class="page-section">
+      <view class="weui-cells__title">活动举办日期</view>
+      <view class="weui-cells weui-cells_after-title">
+        <picker mode="date" value="{{date}}" bindchange="hold_date_change">
+          <view class="weui-cell weui-cell_input">
+            {{hold_date}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">活动举办时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <picker mode="time" value="{{time}}" bindchange="hold_time_change">
+          <view class="weui-cell weui-cell_input">
+            {{hold_time}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">报名截止日期</view>
+      <view class="weui-cells weui-cells_after-title">
+        <picker mode="date" value="{{date}}" bindchange="apply_date_change">
+          <view class="weui-cell weui-cell_input">
+            {{apply_date}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">报名截止时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <picker mode="time" value="{{time}}" bindchange="apply_time_change">
+          <view class="weui-cell weui-cell_input">
+            {{apply_time}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="page-section">
       <view class="weui-cells__title">预计参与人数</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
@@ -53,6 +93,22 @@
     <view class="page-section">
       <view class="weui-cells__title">图片</view>
       <image src="{{path}}"></image>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">活动举办时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-input">{{hold_date+'  '+hold_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">报名截止时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-input">{{apply_date+'  '+apply_time}}</view>
+        </view>
+      </view>
     </view>
     <view class="page-section">
       <view class="weui-cells__title">预计参与人数</view>
