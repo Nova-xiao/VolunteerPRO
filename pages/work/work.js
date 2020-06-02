@@ -34,15 +34,20 @@ Page({
   //onLoad函数
   onLoad: function () {
     this.setData({
+      list: [],
       reachBottom: false
     })
-    //获取所有协议列表
-    util.getAll(this)
+
     var time = util.formatTime(new Date)
     this.setData({
       now_time: time
     })
     console.log(time);
+
+    util.getNum(this)
+    //获取前十个协议列表
+    util.getList(this, 0, 10)
+
   },
 
   //对点击button的事件进行处理
@@ -53,16 +58,32 @@ Page({
     })
   },
 
-  //下拉加载刷新
-  onPullDownRefresh: function () {
-    console.log("下拉刷新")
-    wx.stopPullDownRefresh()
+  //下拉刷新
+  onPullDownRefresh: function() {
     this.onLoad()
   },
 
-  onReachBottom: function () {
-    console.log("下拉刷新")
-    this.onLoad()
+  //上滑加载剩余数据
+  loadMore: function () {
+    console.log(this.data.list.length +":"+ this.data.contractNum)
+    if(this.data.list.length < this.data.contractNum){
+      console.log("上滑加载剩余数据")
+      var left = this.data.contractNum - this.data.list.length
+      if(left < 10){
+        util.getList(this, this.data.list.length, left)
+      }
+      else{
+        util.getList(this, this.data.list.length, 10)
+      }
+    }
+    else{
+      console.log("已触底")
+      console.log(this.data.list)
+      this.setData({
+        reachBottom: true
+      })
+    }
+    
   },
 
   //切换栏目
@@ -73,6 +94,7 @@ Page({
     })
   },
 
+  //分享按钮
   onShareAppMessage: function (res) {
     if (res.from == 'button') {
       console.log(res.target)

@@ -81,11 +81,11 @@ Page({
     },
 
     click_cert: function (e) {
-        if (this.data.onShowGroup != 'certificate') {
+        if (this.data.onShowGroup != 'finish') {
             this.setData({
-                onShowGroup: 'certificate'
+                onShowGroup: 'finish'
             })
-            util.getMyCertificate(this)
+            util.getMyFinished(this)
         }
         console.log(this.data.onShowGroup)
     },

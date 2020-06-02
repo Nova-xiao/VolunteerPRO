@@ -109,10 +109,14 @@ Page({
       owner: app.globalData.openid,
       title: this.data.title,
       img: this.data.img,
+
       apply_date:  this.data.apply_date,
       apply_time: this.data.apply_time,
       hold_date: this.data.hold_date,
-      hold_time: this.data.hold_time
+      hold_time: this.data.hold_time,
+
+      finish_img: null
+
     }
     console.log(json)
     // 上传至数据库

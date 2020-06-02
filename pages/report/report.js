@@ -70,13 +70,30 @@ Page({
       var that = this;
       db.collection('Appeals').doc(options.appealId)
       .get().then(async res => {
-        console.log(res)
+        console.log(res.data)
+        
         that.setData({
           title: res.data["title"],
           content: res.data["content"],
           nickname: res.data["nickname"],
           contractId: res.data["contractId"]
         })
+
+        // 从链上获取数据
+        if(res.data["hashId"] != null){
+          var id = res.data["hashId"]
+          var res = await chainUtil.queryEvidence(id)
+          var chainData = JSON.parse(res)
+          console.log("Dealing with : ",id, chainData)
+          that.setData({
+            title: chainData.title,
+            content: chainData.content,
+            nickname: chainData.nickname,
+            contractId: chainData.contractId,
+            hashId: id
+          })
+        }
+        
       })
       this.setData({
         appealId:options.appealId,
@@ -94,7 +111,7 @@ Page({
     })
   },
   //提交申诉内容
-  formSubmit: function (e) {
+  formSubmit: async function (e) {
     console.log("Submitting ", e.detail.value.content)
     this.setData({
       content: e.detail.value.content,
@@ -110,6 +127,14 @@ Page({
       nickname: this.data.mynickname,
       contractId: this.data.contractId
     }
+    var str = JSON.stringify(json)
+    var _hashId = await chainUtil.storeEvidence(str)
+    this.setData({
+      hashId: _hashId
+    })
+    json.hashId = this.data.hashId
+    json.onChain = true
+    console.log("Report uploaded to hashid:", this.data.hashId)
     // 上传至数据库
     const db = wx.cloud.database()
     db.collection('Appeals').add({
@@ -138,6 +163,7 @@ Page({
             appealed: true
           }
         })
+        
         this.setData({
           step: 2
         })
@@ -150,6 +176,8 @@ Page({
         console.error('[数据库] [新增记录] 失败：', err)
       }
     })
+
+    
   },
   //拷贝申诉记录id
   copyid: function () {

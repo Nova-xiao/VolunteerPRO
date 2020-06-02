@@ -6,7 +6,7 @@ const app = getApp()
 const fsm = wx.getFileSystemManager();
 const FILE_BASE_NAME = 'tmp_base64src'; //自定义文件名
 
-function base64src(base64data, cb) {
+function base64src(base64data, file_base_name, cb) {
 	//cb为回调函数
 	const [, format, bodyData] = /data:image\/(\w+);base64,(.*)/.exec(base64data) || [];
 	console.log(format, bodyData)
@@ -15,7 +15,7 @@ function base64src(base64data, cb) {
 		console.log("Base64 parse error")
 		return
 	}
-	const filePath = `${wx.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`;
+	const filePath = `${wx.env.USER_DATA_PATH}/${file_base_name}.${format}`;
 	const buffer = wx.base64ToArrayBuffer(bodyData);
 	console.log(filePath)
 	fsm.writeFile({
@@ -99,21 +99,35 @@ function getAccountInfo(openid, that) {
 	return data
 }
 
-//获取所有协议
-function getAll(that) {
-	var contractDb = db.collection("Contracts")
-	contractDb.count().then(res => {
-		that.setData({
-			contractNum: res.total
-		})
-		contractDb.get().then(res => {
-			console.log(res.data)
-			that.setData({
-				list: res.data
-			})
-		})
-	}
-	)
+//获取定位的后十条数据
+function getList(that, offset, count) {
+  var contractDb = db.collection("Contracts")
+  /*
+  contractDb.count().then(res => {
+    console.log("contractNum = " + res.total)
+    that.setData({
+      contractNum: res.total
+    })
+    */
+    //先获取总数再获取列表
+    contractDb.skip(offset).limit(count).get().then(res => {
+      console.log(res.data)
+      var toAppend = []
+      for(var i of res.data){
+        toAppend.push({
+          title: i.title,
+          content: i.content,
+          _id: i._id
+        })
+      }
+      var newList = that.data.list.concat(toAppend)
+      that.setData({
+        list: newList
+      })
+    })
+    /*
+  })
+  */
 }
 
 //获取所有申诉记录
@@ -175,19 +189,41 @@ function getMyCreate(that) {
 	})
 }
 
-function getMyCertificate(that){
+function getMyFinished(that){
+	var myid = app.globalData.openid;
 	var ret_set = new Array()
 	that.setData({
 		list: ret_set
 	})
-	console.log("Not implemented")
+	var AccountDb = db.collection("Accounts")
+	var contractDb = db.collection("Contracts")
+	AccountDb.where({
+		_openid: myid
+	}).get().then(res => {
+		var contract_set = res.data[0].create_contract_Set
+		var ret_set = new Array()
+		that.setData({
+			list: ret_set
+		})
+		for (var contractId of contract_set) {
+			contractDb.doc(contractId).get().then(res => {
+				if (res.data.finish_img != null){
+					ret_set.push(res.data)
+					console.log(ret_set)
+					that.setData({
+						list: ret_set
+					})
+				}
+			})
+		}
+	})
 }
 
 //获取协议总数
 function getNum(that) {
 	var contractDb = db.collection("Contracts")
 	contractDb.count().then(res => {
-		console.log(res.total)
+		console.log("contractNum = "+ res.total)
 		that.setData({
 			contractNum: res.total
 		})
@@ -220,12 +256,23 @@ function getDataById(id, that) {
 				_id: res.data["_id"],
 				onChain: res.data["onChain"],
 				hashId: res.data["HashId"],
-				img: res.data["img"]
+				img: res.data["img"],
+				finish_img: res.data["finish_img"]
 			})
 			if (res.data["_openid"] == app.globalData.openid){
 				that.setData({
 					canCancel:true
 				})
+			}
+			if(res.data["onChain"] == true) {
+				that.setData({
+					isFinish: true
+				})
+				if (res.data["_openid"] == app.globalData.openid && res.data["finish_img"] == null) {
+					that.setData({
+						canUpload: true
+					})
+				}
 			}
 			//如果在链上，重新取
 			if (that.data.onChain) {
@@ -268,27 +315,32 @@ function getDataById(id, that) {
 				}
 			}
 			//转换img
-			base64src(that.data.img, res => {
+			base64src(that.data.img, "tmp_base64src" , res => {
 				that.setData({
 					path: res
 				})
+				console.log("re1s = ", res)
+				console.log("path = ", that.data.path)
 			})
-
+			base64src(that.data.finish_img, "tmp_finish_base64src", res => {
+				that.setData({
+					finish_img_path: res
+				})
+				console.log("res = ", res)
+				console.log("finish path = ", that.data.finish_img_path)
+			})
+			
 		})
-		console.log("Successfully get contract set and it is:")
-		console.log(that.data.myContracts)
-		console.log(that.data.peopleset)
-		console.log(that.data.peoplenumber)
 }
 
 module.exports = {
 	formatTime: formatTime,
 	getAccountInfo: getAccountInfo,
-	getAll: getAll,
+	getList: getList,
 	getAppeal: getAppeal,
 	getMyParticipate: getMyParticipate,
 	getMyCreate: getMyCreate,
-	getMyCertificate: getMyCertificate,
+	getMyFinished: getMyFinished,
 	getNum: getNum,
 	getDataById: getDataById,
 	base64src: base64src
