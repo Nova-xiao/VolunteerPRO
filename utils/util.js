@@ -109,7 +109,6 @@ function getList(that, offset, count) {
       contractNum: res.total
     })
     */
-    //先获取总数再获取列表
     contractDb.skip(offset).limit(count).get().then(res => {
       console.log(res.data)
       var toAppend = []
@@ -122,7 +121,8 @@ function getList(that, offset, count) {
       }
       var newList = that.data.list.concat(toAppend)
       that.setData({
-        list: newList
+        list: newList,
+        blocked: false
       })
     })
     /*
