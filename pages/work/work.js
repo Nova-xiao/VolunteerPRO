@@ -40,6 +40,13 @@ Page({
       offset: 0,
       blocked: false
     })
+
+    var time = util.formatTime(new Date)
+    this.setData({
+      now_time: time
+    })
+    console.log(time);
+
     util.getNum(this)
     //获取前十个协议列表
     if(this.data.contractNum < 10){
@@ -97,9 +104,12 @@ Page({
   
   },
 
-  //切换栏目（暂未实现）
+  //切换栏目
   clickmenu: function (e) {
     console.log(e)
+    this.setData({
+      onShowGroup: e.currentTarget.id
+    })
   },
 
   //分享按钮

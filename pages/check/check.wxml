@@ -47,6 +47,22 @@
         </view>
       </view>
     </view>
+        <view class="page-section">
+      <view class="weui-cells__title">活动举办时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-input">{{hold_date+'  '+hold_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="weui-cells__title">报名截止时间</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+            <view class="weui-input">{{apply_date+'  '+apply_time}}</view>
+        </view>
+      </view>
+    </view>
     <view class="page-section">
       <view class="weui-cells__title">展示图片</view>
       <image src="{{path}}"></image>
