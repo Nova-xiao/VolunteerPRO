@@ -59,6 +59,7 @@ App({
                       data = {
                         contract_Set: [],
                         create_contract_Set: [],
+                        appeal_Set: [],
                         handle_url: this.globalData.userInfo.avatarUrl,
                         nickname: this.globalData.userInfo.nickName,
                         openid: openid
