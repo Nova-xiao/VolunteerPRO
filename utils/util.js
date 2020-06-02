@@ -257,7 +257,11 @@ function getDataById(id, that) {
 				onChain: res.data["onChain"],
 				hashId: res.data["HashId"],
 				img: res.data["img"],
-				finish_img: res.data["finish_img"]
+				finish_img: res.data["finish_img"],
+				apply_date: res.data["apply_date"],
+				apply_time: res.data["apply_time"],
+				hold_date: res.data["hold_date"],
+				hold_time: res.data["hold_time"]
 			})
 			if (res.data["_openid"] == app.globalData.openid){
 				that.setData({
@@ -285,7 +289,11 @@ function getDataById(id, that) {
 					peopleset: chainData.attenders,
 					_id: chainData._id,
 					img: chainData.img,
-					canCancel:false
+					canCancel:false,
+					apply_date: chainData.apply_date,
+					apply_time: chainData.apply_time,
+					hold_date: chainData.hold_date,
+					hold_time: chainData.hold_time
 				})
 				console.log("根据链上数据进行更新!")
 			}
