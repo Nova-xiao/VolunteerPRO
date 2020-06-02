@@ -162,7 +162,11 @@ Page({
         need_number: this.data.peoplenumber,
         title: this.data.title,
         content: this.data.content,
-        img: this.data.img
+        img: this.data.img,
+        apply_date: this.data.apply_date,
+        apply_time: this.data.apply_time,
+        hold_date: this.data.hold_date,
+        hold_time: this.data.hold_time
       }
 
       var uploadData = JSON.stringify(blockData);

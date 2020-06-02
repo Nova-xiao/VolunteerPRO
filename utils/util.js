@@ -322,6 +322,13 @@ function getDataById(id, that) {
 					})
 				}
 			}
+			var now_time = formatTime(new Date)
+			if (now_time > that.data.apply_date + ' ' + that.data.apply_time) {
+				that.setData({
+					canAttend: false,
+					btnText: "已结束"
+				})
+			}
 			//转换img
 			base64src(that.data.img, "tmp_base64src" , res => {
 				that.setData({
