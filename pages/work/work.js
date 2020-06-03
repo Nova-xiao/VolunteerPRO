@@ -10,7 +10,8 @@ Page({
     windowHeight: "",
     windowWidth: "",
     onShowGroup: "all",
-    now_time: ''
+    offset: 0,
+    blocked: false
   },
 
   //渲染前获取视图层信息
@@ -35,7 +36,9 @@ Page({
   onLoad: function () {
     this.setData({
       list: [],
-      reachBottom: false
+      reachBottom: false,
+      offset: 0,
+      blocked: false
     })
 
     var time = util.formatTime(new Date)
@@ -46,8 +49,12 @@ Page({
 
     util.getNum(this)
     //获取前十个协议列表
-    util.getList(this, 0, 10)
-
+    if(this.data.contractNum < 10){
+      util.getList(this, this.data.offset, this.data.contractNum)
+    }
+    else{
+      util.getList(this, this.data.offset, 10)
+    }
   },
 
   //对点击button的事件进行处理
@@ -60,30 +67,41 @@ Page({
 
   //下拉刷新
   onPullDownRefresh: function() {
+    console.log("下拉刷新")
     this.onLoad()
   },
 
   //上滑加载剩余数据
   loadMore: function () {
-    console.log(this.data.list.length +":"+ this.data.contractNum)
-    if(this.data.list.length < this.data.contractNum){
-      console.log("上滑加载剩余数据")
-      var left = this.data.contractNum - this.data.list.length
-      if(left < 10){
-        util.getList(this, this.data.list.length, left)
-      }
-      else{
-        util.getList(this, this.data.list.length, 10)
-      }
+    if(this.data.blocked){
+      console.log("blocked! ")
+      return
     }
     else{
-      console.log("已触底")
-      console.log(this.data.list)
+      //阻塞已调用的方法重复执行
       this.setData({
-        reachBottom: true
+        blocked: true
       })
+      console.log(this.data.list.length + ":" + this.data.contractNum)
+      if (this.data.list.length < this.data.contractNum) {
+        console.log("上滑加载剩余数据")
+        var left = this.data.contractNum - this.data.list.length
+        if (left < 10) {
+          util.getList(this, this.data.list.length, left)
+        }
+        else {
+          util.getList(this, this.data.list.length, 10)
+        }
+      }
+      else {
+        console.log("已触底")
+        console.log(this.data.list)
+        this.setData({
+          reachBottom: true
+        })
+      }
     }
-    
+  
   },
 
   //切换栏目

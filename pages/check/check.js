@@ -2,7 +2,7 @@
 const app = getApp()
 wx.cloud.init()
 const db = wx.cloud.database()
-const chainUtil = require("../../utils/chain_access.js")
+// const chainUtil = require("../../utils/chain_access.js")
 const util = require("../../utils/util.js")
 
 Page({
@@ -42,7 +42,13 @@ Page({
     path: null,
     //图片路径
     appealed:false,
-    appealer:[]
+    appealer:[],
+    apply_date: '',
+    apply_time: '',
+    //报名截止时间
+    hold_date: '',
+    hold_time: ''
+    //活动举办时间
   },
 
   onLoad: async function (options) {
@@ -156,7 +162,11 @@ Page({
         need_number: this.data.peoplenumber,
         title: this.data.title,
         content: this.data.content,
-        img: this.data.img
+        img: this.data.img,
+        apply_date: this.data.apply_date,
+        apply_time: this.data.apply_time,
+        hold_date: this.data.hold_date,
+        hold_time: this.data.hold_time
       }
 
       var uploadData = JSON.stringify(blockData);

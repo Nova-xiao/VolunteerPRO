@@ -109,7 +109,6 @@ function getList(that, offset, count) {
       contractNum: res.total
     })
     */
-    //先获取总数再获取列表
     contractDb.skip(offset).limit(count).get().then(res => {
       console.log(res.data)
       var toAppend = []
@@ -122,7 +121,8 @@ function getList(that, offset, count) {
       }
       var newList = that.data.list.concat(toAppend)
       that.setData({
-        list: newList
+        list: newList,
+        blocked: false
       })
     })
     /*
@@ -258,7 +258,11 @@ function getDataById(id, that) {
 				onChain: res.data["onChain"],
 				hashId: res.data["HashId"],
 				img: res.data["img"],
-				finish_img: res.data["finish_img"]
+				finish_img: res.data["finish_img"],
+				apply_date: res.data["apply_date"],
+				apply_time: res.data["apply_time"],
+				hold_date: res.data["hold_date"],
+				hold_time: res.data["hold_time"]
 			})
 			if (res.data["_openid"] == app.globalData.openid){
 				that.setData({
@@ -286,7 +290,11 @@ function getDataById(id, that) {
 					peopleset: chainData.attenders,
 					_id: chainData._id,
 					img: chainData.img,
-					canCancel:false
+					canCancel:false,
+					apply_date: chainData.apply_date,
+					apply_time: chainData.apply_time,
+					hold_date: chainData.hold_date,
+					hold_time: chainData.hold_time
 				})
 				console.log("根据链上数据进行更新!")
 			}
@@ -314,6 +322,13 @@ function getDataById(id, that) {
 						btnText: "人已满"
 					})
 				}
+			}
+			var now_time = formatTime(new Date)
+			if (now_time > that.data.apply_date + ' ' + that.data.apply_time) {
+				that.setData({
+					canAttend: false,
+					btnText: "已结束"
+				})
 			}
 			//转换img
 			base64src(that.data.img, "tmp_base64src" , res => {
