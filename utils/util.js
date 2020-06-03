@@ -200,13 +200,14 @@ function getMyFinished(that){
 	AccountDb.where({
 		_openid: myid
 	}).get().then(res => {
-		var contract_set = res.data[0].create_contract_Set
+		var contract_set = res.data[0].contract_Set
 		var ret_set = new Array()
 		that.setData({
 			list: ret_set
 		})
 		for (var contractId of contract_set) {
 			contractDb.doc(contractId).get().then(res => {
+				console.log("res.data")
 				if (res.data.finish_img != null){
 					ret_set.push(res.data)
 					console.log(ret_set)
