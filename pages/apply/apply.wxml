@@ -92,7 +92,7 @@
     </view>
     <view class="page-section">
       <view class="weui-cells__title">图片</view>
-      <image src="{{path}}"></image>
+      <image src="{{path}}" mode = "widthFix"></image>
     </view>
     <view class="page-section">
       <view class="weui-cells__title">活动举办时间</view>

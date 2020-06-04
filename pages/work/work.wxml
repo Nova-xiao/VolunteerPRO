@@ -4,7 +4,7 @@
 
     <text class="{{onShowGroup=='all'?'active':''}}" id="all" bindtap="clickmenu">全部</text>
     <text class="{{onShowGroup=='recruit'?'active':''}}" id="recruit" bindtap="clickmenu">正在招募</text>
-    <text class="{{onShowGroup=='over'?'active':''}}" id="over" bindtap="clickmenu">已结束</text>
+    <!--text class="{{onShowGroup=='over'?'active':''}}" id="over" bindtap="clickmenu">已结束</text-->
 
   </view>
 </scroll-view>

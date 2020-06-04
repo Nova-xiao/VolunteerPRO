@@ -2,7 +2,7 @@
 const app = getApp()
 wx.cloud.init()
 const db = wx.cloud.database()
-// const chainUtil = require("../../utils/chain_access.js")
+const chainUtil = require("../../utils/chain_access.js")
 const util = require("../../utils/util.js")
 
 Page({
@@ -38,6 +38,7 @@ Page({
     img: null,
     finish_img: null,
     finish_img_path: null,
+    hasImg: false,
     //base64编码图片
     path: null,
     //图片路径

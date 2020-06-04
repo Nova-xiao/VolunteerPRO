@@ -65,7 +65,7 @@
     </view>
     <view class="page-section">
       <view class="weui-cells__title">展示图片</view>
-      <image src="{{path}}"></image>
+      <image src="{{path}}" mode = "widthFix"></image>
     </view>
     <view class="page-section">
       <view class="weui-cells__title">是否上链</view>
@@ -89,7 +89,7 @@
     <view wx:if="{{isFinish}}">
       <view class="page-section">
         <view class="weui-cells__title">完成图片</view>
-        <image src="{{finish_img_path}}"></image>
+        <image src="{{finish_img_path}}" mode = "widthFix"></image>
       </view>
     </view>
     <view wx:if="{{hasUpload}}">
